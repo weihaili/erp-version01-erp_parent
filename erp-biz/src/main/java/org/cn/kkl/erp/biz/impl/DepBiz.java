@@ -10,18 +10,27 @@ public class DepBiz implements IDepBiz {
 	
 	private IDepDao depDao;
 
-	
-
 	public void setDepDao(IDepDao depDao) {
 		this.depDao = depDao;
 	}
-
-	/* 
-	 * query department list
-	 */
-	public List<Dep> getDepList() {
-		List<Dep> depList = depDao.getDepList();
-		return depList;
+	
+	@Override
+	public List<Dep> getDepList(Integer page, Integer rows) {
+		
+		return depDao.getDepList(page, rows);
 	}
+
+	@Override
+	public List<Dep> getDepList(Dep dep1, Dep dep2, Object param, Integer page, Integer rows) {
+		
+		return depDao.getDepList(dep1,dep2,param,page,rows);
+	}
+
+	@Override
+	public Long getDepTotalRecords(Dep dep1) {
+		
+		return depDao.getDepTotalRecords(dep1);
+	}
+
 
 }

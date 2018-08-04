@@ -1,29 +1,71 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
 <title>department management</title>
-<link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css"
+	href="ui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
 <script type="text/javascript" src="ui/jquery.min.js"></script>
 <script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
 <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 	$(function(){
-		$('#deplistinfo').datagrid({    
-		    url:'dep_list',    
+		$('#grid').datagrid({    
+		    //url:'dep_list', 
+		    url:'dep_listByCondition',   
 		    columns:[[    
 		        {field:'uuid',title:'Id',width:100},    
 		        {field:'name',title:'Name',width:100},    
 		        {field:'tele',title:'telephone',width:100,align:'right'}    
-		    ]]    
+		    ]],
+		    singleSelect: true,
+		    rownumbers: true,
+		    pagePosition: 'both',
+		    pagination: true   
 		}); 
+
+		$('#btn_search').bind('click',function(){
+			var formData=$('#searchForm').serializeJSON();
+			//alert(JSON.stringify(formData));
+			//alert(JSON.stringify($('#grid').datagrid('getData')));
+			$('#grid').datagrid('load',formData);
+			/* $.ajax({
+				url: 'dep_listByCondition',
+				data: formData,
+				dataType: 'json',
+				type: 'post',
+				success: function(rtn){
+					$('#grid').datagrid('loadData',rtn);
+				}
+			});  */
+		});
 	});
 
 	
 </script>
 </head>
 <body>
-<table id="deplistinfo"></table> 
+	<div class="easyui-panel" style="padding-left: 4px;border-bottom: 0px;">
+		<div style="height: 2px;"></div>
+		<form id="searchForm">
+			<table>
+				<tr>
+					<td>department name:</td>
+					<td><input type="text" name="dep1.name" /></td>
+				</tr>
+				<tr>
+					<td>department telephone:</td>
+					<td><input type="text" name="dep1.tele" /></td>
+				</tr>
+			</table>
+
+			<button id="btn_search" type="button">search</button>
+		</form>
+		<div style="height: 2px;"></div>
+	</div>
+
+	<table id="grid"></table>
 </body>
 </html>

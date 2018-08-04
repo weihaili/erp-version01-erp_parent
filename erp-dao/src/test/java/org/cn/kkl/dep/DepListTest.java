@@ -22,7 +22,7 @@ public class DepListTest {
 	
 	@Test
 	public void testDepList(){
-		List<Dep> depList = depDao.getDepList();
+		List<Dep> depList = depDao.getDepList(1,10);
 		for (Dep dep : depList) {
 			System.out.println(dep.getName()+" || "+dep.getTele()+" || "+dep.getUuid());
 		}
