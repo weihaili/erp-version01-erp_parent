@@ -12,6 +12,8 @@
 		http://www.springframework.org/schema/aop 
 		http://www.springframework.org/schema/aop/spring-aop.xsd
 		">  
+	<!-- <context:component-scan base-package="org.cn.kkl.erp"/> -->
+	
 	<bean id="depDao" class="org.cn.kkl.erp.dao.impl.DepDao">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>

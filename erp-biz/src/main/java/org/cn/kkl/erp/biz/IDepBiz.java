@@ -11,5 +11,13 @@ public interface IDepBiz {
 	List<Dep> getDepList(Dep dep1, Dep dep2, Object param, Integer page, Integer rows);
 	
 	Long getDepTotalRecords(Dep dep1);
+	
+	void add(Dep dep);
+	
+	void delete(Long uuid);
+	
+	Dep get(Long uuid);
+	
+	void update(Dep dep);
 
 }

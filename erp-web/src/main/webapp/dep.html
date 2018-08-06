@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <title>department management</title>
 <link rel="stylesheet" type="text/css"
 	href="ui/themes/default/easyui.css">
@@ -11,6 +12,7 @@
 <script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
 <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
+	var method = '';
 	$(function(){
 		$('#grid').datagrid({    
 		    //url:'dep_list', 
@@ -18,14 +20,34 @@
 		    columns:[[    
 		        {field:'uuid',title:'Id',width:100},    
 		        {field:'name',title:'Name',width:100},    
-		        {field:'tele',title:'telephone',width:100,align:'right'}    
+		        {field:'tele',title:'telephone',width:100,align:'right'},
+		        {field:'-',title:'operation',width:100,align:'center',
+		        	formatter: function(value,row,index){
+			        	//alert(JSON.stringify(row.uuid));
+			        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
+			        	oper+= ' <a href="javascript:void(0)" onclick="del('+row.uuid+');">delete</a>';
+						return oper;
+					}
+			    }    
 		    ]],
 		    singleSelect: true,
 		    rownumbers: true,
 		    pagePosition: 'both',
-		    pagination: true   
+		    pagination: true ,
+		    //tool bar
+		    toolbar: [{
+			    text: 'add',
+				iconCls: 'icon-add',
+				handler: function(){
+					method="add";
+					$('#editDlg').dialog('open');
+				}
+			
+			}]
+				      
 		}); 
 
+		//query department list by condition
 		$('#btn_search').bind('click',function(){
 			var formData=$('#searchForm').serializeJSON();
 			//alert(JSON.stringify(formData));
@@ -41,8 +63,75 @@
 				}
 			});  */
 		});
+
+		//add new department
+		$('#editDlg').dialog({    
+		    title: 'department add',    
+		    width: 500,    
+		    height: 200,    
+		    closed: true,//the windown whether close status,if it is true,the window is close    
+		    //cache: false, //whether demand cache   
+		    //href: 'get_content.php',    
+		    modal: true   
+		}); 
+
+		//add button
+		$('#btnSave').bind('click',function(){
+			var formData=$('#editForm').serializeJSON();
+			$.ajax({
+				url: 'dep_'+method,
+				data: formData,
+				dataType: 'json',
+				type: 'post',
+				success: function(rtn){
+					$.messager.alert('note',rtn.message,'info',function(){
+						//if add success ,we close dialog windown,then reflush tabale data
+						$('#editDlg').dialog('close');
+						$('#grid').datagrid('reload');
+					});
+					
+					$('#grid').datagrid('loadData',rtn);
+				}
+			});
+		});
+
+		//cancel button
+		$('#btnCancel').bind('click',function(){
+			$('#editDlg').dialog('close');
+		});
+
+		
 	});
 
+	//operation del
+	function del(uuid){
+		$.messager.confirm('confirm','Are you sure you want to delete code is '+uuid+' the record?',function(yes){    
+		    if (yes){    
+		    	$.ajax({
+					url: 'dep_delete?id='+uuid,
+					dataType: 'json',
+					type: 'post',
+					success: function(){
+						$('#grid').datagrid('reload');
+					}
+				});   
+		    }    
+		}); 
+	};
+
+	//operation edit  update department information
+	function edit(uuid){
+		//pop-up window
+		$('#editDlg').dialog('open');
+
+		//load data
+		//first clear form data then load new data
+		$('#editForm').form('clear');
+		method="update";
+		
+		$('#editForm').form('load','dep_get?id='+uuid);	// 读取表单的URL
+
+	};
 	
 </script>
 </head>
@@ -67,5 +156,25 @@
 	</div>
 
 	<table id="grid"></table>
+	
+	<div id="editDlg">
+		<form id="editForm">
+			<input type="hidden" name="dep.uuid">			
+			<table>
+				<tr>
+					<td>department name:</td>
+					<td><input type="text" name="dep.name" /></td>
+				</tr>
+				<tr>
+					<td>department telephone:</td>
+					<td><input type="text" name="dep.tele" /></td>
+				</tr>
+			</table>
+			<button id="btnSave" type="button">save</button>
+			<button id="btnCancel" type="button">cancel</button>
+		</form>
+	</div>  
+
+	
 </body>
 </html>

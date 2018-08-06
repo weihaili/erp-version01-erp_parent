@@ -32,5 +32,26 @@ public class DepBiz implements IDepBiz {
 		return depDao.getDepTotalRecords(dep1);
 	}
 
+	@Override
+	public void add(Dep dep) {
+		depDao.add(dep);
+		
+	}
+
+	@Override
+	public void delete(Long uuid) {
+		depDao.delete(uuid);
+	}
+
+	@Override
+	public Dep get(Long uuid) {
+		return depDao.get(uuid);
+	}
+
+	@Override
+	public void update(Dep dep) {
+		depDao.update(dep);
+	}
+
 
 }

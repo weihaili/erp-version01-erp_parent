@@ -13,6 +13,7 @@ import org.cn.kkl.erp.entity.Dep;
 import org.springframework.http.MediaType;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  *department manager action
@@ -101,12 +102,84 @@ public class DepAction {
 		String jsonString = JSON.toJSONString(result);
 		write(jsonString);
 	}
+	
+	private Dep dep;
+	
+	public Dep getDep() {
+		return dep;
+	}
+
+	public void setDep(Dep dep) {
+		this.dep = dep;
+	}
 
 	/**
-	 * commone method
+	 * add department
+	 */
+	public void add(){
+		//front-point demand data style {"success":true,"message":""}
+		try {
+			depBiz.add(dep);
+			ajaxReturn(true, "add "+dep.getName() + " success");
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxReturn(false, "add "+dep.getName() +" fail, please try again later");
+		}
+	}
+
+	
+	/***************************************************************************/
+	private Long id;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
+	 * delete department by id 
+	 */
+	public void delete(){
+		try {
+			depBiz.delete(id);
+			ajaxReturn(true, "delete department id is "+id+" success");
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxReturn(true, "delete department id is "+id+" fail,please try again later");
+		}
+	}
+	
+	/**
+	 * query department information by id
+	 */
+	public void get(){
+		Dep dep3 = depBiz.get(id);
+		String jsonString = JSON.toJSONString(dep3);
+		write(mapData(jsonString,"dep"));
+	}
+	
+	/**
+	 * update department 
+	 */
+	public void update(){
+		try {
+			depBiz.update(dep);
+			ajaxReturn(true, "update "+dep.getName()+" success");
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxReturn(false, "update the "+dep.getName()+" fail,please try again later");
+		}
+	}
+	/***************************************************************************/
+
+	/**
+	 * common method
 	 * @param jsonStr need to write to return page string
 	 */
-	public void write(String  jsonStr){
+	private void write(String  jsonStr){
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setContentType(MediaType.TEXT_PLAIN_VALUE+";charset=utf-8");;
 		try {
@@ -115,5 +188,32 @@ public class DepAction {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * @param jsonStr : json style string
+	 * @param prefix : add prefix (like dep)
+	 * @return
+	 * example: jsonStr : {"name":"管理员组","tele":"000000","uuid":1}
+	 * return : {"dep.name":"管理员组","dep.tele":"000000","dep.uuid":1}
+	 */
+	private String mapData(String jsonStr,String prefix){
+		Map<String, Object> map=JSON.parseObject(jsonStr);
+		Map<String, Object> dataMap=new HashMap<>();
+		for (String key : map.keySet()) {
+			dataMap.put(prefix+"."+key, map.get(key));
+		}
+		return JSON.toJSONString(dataMap);
+	}
 
+	/** 
+	 * ajax return value
+	 * @param success
+	 * @param message
+	 */
+	private void ajaxReturn(boolean success,String message) {
+		Map<String, Object> rtn=new HashMap<>();
+		rtn.put("success", success);
+		rtn.put("message", message);
+		write(JSON.toJSONString(rtn));
+	}
 }
