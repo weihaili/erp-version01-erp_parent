@@ -1,10 +1,308 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>employee management</title>
+<link rel="stylesheet" type="text/css"
+	href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="js/crud.js"></script>
+<script type="text/javascript" src="ui/date.js"></script>
+<script type="text/javascript">
+	var name='emp';
+	var height=310;
+	var width=300;
+	var columns=[[    
+			        {field:'uuid',title:'Id',width:50,align:'center'},    
+			        {field:'username',title:'username',width:120,align:'center'},    
+			        //{field:'pwd',title:'password',width:90,align:'center'},
+			        {field:'name',title:'name',width:120,align:'center'},    
+			        {field:'gender',title:'gender',width:40,align:'center',formatter:function(value,row,index){
+						if(1==value*1) return 'male';
+						if(0==value*1) return 'female';
+				    }},    
+			        {field:'tele',title:'telephone',width:90,align:'center'},
+			        {field:'address',title:'address',width:120,align:'center'},
+			        {field:'birthday',title:'birthday',width:90,align:'center',formatter:function(value){
+						return new Date(value).Format('yyyy-MM-dd');
+				    }},
+			        {field:'dep',title:'department',width:90,align:'center',formatter:function(value,row,index){
+						return value.name;
+				    }},
+			        {field:'-',title:'operation',width:100,align:'center',
+			        	formatter: function(value,row,index){
+				        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
+				        	oper+= ' <a href="javascript:void(0)" onclick="del('+row.uuid+');">delete</a>';
+							return oper;
+						}
+				    }    
+			    ]];
+	// extend the 'equals' rule    
+	$.extend($.fn.validatebox.defaults.rules, {    
+	    equals: {    
+	        validator: function(value,param){    
+	            return value == $(param[0]).val();    
+	        },    
+	        message: 'Field do not match.'   
+	    }    
+	});
+</script>
+
+<!-- <script type="text/javascript">
+	var method = '';
+	$(function(){
+		$('#grid').datagrid({    
+		    //url:'dep_list', 
+		    url:'dep_listByCondition',   
+		    columns:[[    
+		        {field:'uuid',title:'Id',width:60,align:'center'},    
+		        {field:'name',title:'Name',width:120,align:'center'},    
+		        {field:'tele',title:'telephone',width:90,align:'center'},
+		        {field:'-',title:'operation',width:100,align:'center',
+		        	formatter: function(value,row,index){
+			        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
+			        	oper+= ' <a href="javascript:void(0)" onclick="del('+row.uuid+');">delete</a>';
+						return oper;
+					}
+			    }    
+		    ]],
+		    singleSelect: true,
+		    rownumbers: true,
+		    pagePosition: 'both',
+		    pagination: true ,
+		    //tool bar
+		    toolbar: [{
+			    text: 'add',
+				iconCls: 'icon-add',
+				handler: function(){
+					method="add";
+					$('#editDlg').dialog('open');
+				}
+			
+			}]
+				      
+		}); 
+
+		//query department list by condition
+		$('#btn_search').bind('click',function(){
+			var formData=$('#searchForm').serializeJSON();
+			//alert(JSON.stringify(formData));
+			//alert(JSON.stringify($('#grid').datagrid('getData')));
+			$('#grid').datagrid('load',formData);
+			/* $.ajax({
+				url: 'dep_listByCondition',
+				data: formData,
+				dataType: 'json',
+				type: 'post',
+				success: function(rtn){
+					$('#grid').datagrid('loadData',rtn);
+				}
+			});  */
+		});
+
+		//add new department
+		$('#editDlg').dialog({    
+		    title: 'department add',    
+		    width: 500,    
+		    height: 200,    
+		    closed: true,//the windown whether close status,if it is true,the window is close    
+		    //cache: false, //whether demand cache   
+		    //href: 'get_content.php',    
+		    modal: true   
+		}); 
+
+		//add button
+		$('#btnSave').bind('click',function(){
+			var formData=$('#editForm').serializeJSON();
+			$.ajax({
+				url: 'dep_'+method,
+				data: formData,
+				dataType: 'json',
+				type: 'post',
+				success: function(rtn){
+					$.messager.alert('note',rtn.message,'info',function(){
+						//if add success ,we close dialog windown,then reflush tabale data
+						$('#editDlg').dialog('close');
+						$('#grid').datagrid('reload');
+					});
+					
+					$('#grid').datagrid('loadData',rtn);
+				}
+			});
+		});
+
+		//cancel button
+		$('#btnCancel').bind('click',function(){
+			$('#editDlg').dialog('close');
+		});
+
+		
+	});
+
+	//operation del
+	function del(uuid){
+		$.messager.confirm('confirm','Are you sure you want to delete code is '+uuid+' the record?',function(yes){    
+		    if (yes){    
+		    	$.ajax({
+					url: 'dep_delete?id='+uuid,
+					dataType: 'json',
+					type: 'post',
+					success: function(){
+						$('#grid').datagrid('reload');
+					}
+				});   
+		    }    
+		}); 
+	};
+
+	//operation edit  update department information
+	function edit(uuid){
+		//pop-up window
+		$('#editDlg').dialog('open');
+
+		//load data
+		//first clear form data then load new data
+		$('#editForm').form('clear');
+		method="update";
+		
+		$('#editForm').form('load','dep_get?id='+uuid);	// 读取表单的URL
+
+	};
+	
+</script> -->
 </head>
 <body>
+	<div class="easyui-panel" style="padding-left: 4px;border-bottom: 0px;">
+		<div style="height: 2px;"></div>
+		<form id="searchForm">
+			<table>
+				<tr>
+					<td>username:</td>
+					<td><input type="text" name="t1.username" /></td>
+				</tr>
+				<!-- <tr>
+					<td>login password:</td>
+					<td><input type="password" name="t1.pwd" /></td>
+				</tr> -->
+				<tr>
+					<td>name:</td>
+					<td><input type="text" name="t1.name" /></td>
+				</tr>
+				<tr>
+					<td>gender:</td>
+					<td>
+						<!-- <input type="radio" name="t1.gender" value=""/>all -->
+						<input type="radio" name="t1.gender" value="0"/>female
+						<input type="radio" name="t1.gender" value="1"/>male
+					</td>
+				</tr>
+				<tr>
+					<td>email:</td>
+					<td><input type="text" name="t1.email" /></td>
+				</tr>
+				<tr>
+					<td>telephone:</td>
+					<td><input type="text" name="t1.tele" /></td>
+				</tr>
+				<tr>
+					<td>birthday:</td>
+					<td>
+						<input type="text" name="t1.birthday" class="easyui-datebox" editable="false"/> -->
+						<input type="text" name="t2.birthday" class="easyui-datebox" editable="false"/>
+					</td>
+				</tr>
+				<tr>
+					<td>address:</td>
+					<td><input type="text" name="t1.address" /></td>
+				</tr>
+				<tr>
+					<td>depuuid:</td>
+					<td><input type="text" name="t1.dep.uuid" class="easyui-combobox" data-options="
+						url:'dep_list',
+						valueField:'uuid',
+						textField:'name'
+					"/></td>
+				</tr>
+			</table>
 
+			<button id="btn_search" type="button">search</button>
+		</form>
+		<div style="height: 2px;"></div>
+	</div>
+
+	<table id="grid"></table>
+	
+	<div id="editDlg">
+		<form id="editForm">
+			<input type="hidden" name="t.uuid">			
+			<table>
+				<tr>
+					<td>username:</td>
+					<td><input type="text" name="t.username" class="easyui-validatebox" data-options="
+						required:true,missingMessage:'username can not be empty'
+						"/>
+					</td>
+				</tr>
+				<tr>
+					<td>pwd:</td>
+					<td><input type="password" name="t.pwd" id="pwd" class="easyui-validatebox" data-options="required:true"/></td>
+				</tr>
+				<tr>
+					<td>rpwd:</td>
+					<td><input type="password" name="rpwd" id="rpwd" class="easyui-validatebox"     
+    					required="required" validType="equals['#pwd']" /></td>
+				</tr>
+				<tr>
+					<td>name:</td>
+					<td><input type="text" name="t.name" /></td>
+				</tr>
+				<tr>
+					<td>gender:</td>
+					<td>
+						<input type="radio" name="t.gender" value="0"/>female
+						<input type="radio" name="t.gender" value="1"/>male
+					</td>
+				</tr>
+				<tr>
+					<td>email:</td>
+					<td><input type="text" name="t.email" class="easyui-validatebox" data-options="
+							required:true,validType:'email',invalidMessage:'email address format is incorrect'
+						" />
+					</td>
+				</tr>
+				<tr>
+					<td>tele:</td>
+					<td><input type="text" name="t.tele" /></td>
+				</tr>
+				<tr>
+					<td>address:</td>
+					<td><input type="text" name="t.address" /></td>
+				</tr>
+				<tr>
+					<td>birthday:</td>
+					<td><input type="text" name="t.birthday" class="easyui-datebox" editable="false"/></td>
+				</tr>
+				<tr>
+					<td>depuuid:</td>
+					<td><input type="text" name="t.dep.uuid" class="easyui-combobox" data-options="
+						url:'dep_list',
+						valueField:'uuid',
+						textField:'name',
+						required:true,
+						missingMessage:'department can not be empty'
+					" /></td>
+				</tr>
+			</table>
+			<button id="btnSave" type="button">save</button>
+			<button id="btnCancel" type="button">cancel</button>
+		</form>
+	</div>  
+
+	
 </body>
 </html>

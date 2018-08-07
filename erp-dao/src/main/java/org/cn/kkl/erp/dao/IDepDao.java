@@ -1,41 +1,12 @@
 package org.cn.kkl.erp.dao;
 
-import java.util.List;
-
 import org.cn.kkl.erp.entity.Dep;
 
-public interface IDepDao {
+public interface IDepDao extends IBaseDao<Dep>{
 	
-	List<Dep> getDepList(Integer page, Integer rows);
+	String REDIS_DEP_ID_KEY="DEP_ID";
 	
-	List<Dep> getDepList(Dep dep1, Dep dep2, Object param, Integer page, Integer rows);
+	Integer REDIS_ID_INIT_VALUE=19;
 	
-	Long getDepTotalRecords(Dep dep1);
-	
-	/**
-	 * add new department
-	 * @param dep
-	 */
-	void add(Dep dep);
-	
-	
-	/**
-	 * delete department by id
-	 * @param uuid
-	 */
-	void delete(Long uuid);
-	
-	/**
-	 * query department information by id
-	 * @param uuid
-	 * @return
-	 */
-	Dep get(Long uuid);
-	
-	/**
-	 * update department
-	 * @param dep
-	 */
-	void update(Dep dep);
 
 }

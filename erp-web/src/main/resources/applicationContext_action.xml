@@ -15,6 +15,18 @@
 	<bean id="depAction" class="org.cn.kkl.erp.action.DepAction" scope="prototype">
 		<property name="depBiz" ref="depBiz"></property>
 	</bean>
+	
+	<bean id="empAction" class="org.cn.kkl.erp.action.EmpAction" scope="prototype">
+		<property name="empBiz" ref="empBiz"></property>
+	</bean>
+	
+	<bean id="goodsTypeAction" class="org.cn.kkl.erp.action.GoodsTypeAction" scope="prototype">
+		<property name="goodsTypeBiz" ref="goodsTypeBiz"></property>
+	</bean>
+	
+	<bean id="goodsAction" class="org.cn.kkl.erp.action.GoodsAction" scope="prototype">
+		<property name="goodsBiz" ref="goodsBiz"></property>
+	</bean>
 
 	
 </beans>

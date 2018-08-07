@@ -4,6 +4,13 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
     <package name="default" namespace="/" extends="struts-default">
-    	<action name="dep_*" class="depAction" method="{1}"></action>  	   	
+    	<action name="dep_*" class="depAction" method="{1}"></action>
+    	
+    	<action name="emp_*" class="empAction" method="{1}"></action>
+    	
+    	<action name="goodsType_*" class="goodsTypeAction" method="{1}"></action>
+    	
+    	<action name="goods_*" class="goodsAction" method="{1}"></action>
     </package>
+    
 </struts>

@@ -1,8 +1,8 @@
-package org.cn.kkl.erp.dao.impl;
+package org.cn.kkl.erp.redis.dao.impl;
 
 import java.util.List;
 
-import org.cn.kkl.erp.dao.JedisClient;
+import org.cn.kkl.erp.redis.dao.JedisClient;
 
 import redis.clients.jedis.JedisCluster;
 

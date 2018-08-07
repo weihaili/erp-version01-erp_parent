@@ -12,9 +12,24 @@
 		http://www.springframework.org/schema/aop 
 		http://www.springframework.org/schema/aop/spring-aop.xsd
 		">  
-	
+	<!-- dep -->
 	<bean id="depBiz" class="org.cn.kkl.erp.biz.impl.DepBiz">
 		<property name="depDao" ref="depDao"></property>
+	</bean>
+	
+	<!-- emp -->
+	<bean id="empBiz" class="org.cn.kkl.erp.biz.impl.EmpBiz">
+		<property name="empDao" ref="empDao"></property>
+	</bean>
+	
+	<!-- goodsType -->
+	<bean id="goodsTypeBiz" class="org.cn.kkl.erp.biz.impl.GoodsTypeBiz">
+		<property name="goodsTypeDao" ref="goodsTypeDao"></property>
+	</bean>
+	
+	<!-- goods -->
+	<bean id="goodsBiz" class="org.cn.kkl.erp.biz.impl.GoodsBiz">
+		<property name="goodsDao" ref="goodsDao"></property>
 	</bean>
 	
 </beans>

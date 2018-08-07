@@ -14,7 +14,24 @@
 		">  
 	<!-- <context:component-scan base-package="org.cn.kkl.erp"/> -->
 	
+	<!-- dep -->
 	<bean id="depDao" class="org.cn.kkl.erp.dao.impl.DepDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="jedisClient" ref="jedisClient"></property>
+	</bean>
+	
+	<!-- emp -->
+	<bean id="empDao" class="org.cn.kkl.erp.dao.impl.EmpDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- goodsType -->
+	<bean id="goodsTypeDao" class="org.cn.kkl.erp.dao.impl.GoodsTypeDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- goods -->
+	<bean id="goodsDao" class="org.cn.kkl.erp.dao.impl.GoodsDao">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 

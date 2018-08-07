@@ -21,8 +21,10 @@ public class DepListTest {
 	}
 	
 	@Test
-	public void testDepList(){
-		List<Dep> depList = depDao.getDepList(1,10);
+	public void testList(){
+		Dep dep1 = null;
+		Dep dep2 = null;
+		List<Dep> depList = depDao.getList(dep1,dep2,null);
 		for (Dep dep : depList) {
 			System.out.println(dep.getName()+" || "+dep.getTele()+" || "+dep.getUuid());
 		}

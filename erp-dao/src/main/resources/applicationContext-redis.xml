@@ -11,7 +11,7 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
 	
 	<!-- redis single version -->
-	<bean id="jedisClientPool" class="org.cn.kkl.erp.dao.impl.JedisClientPool">
+	<bean id="jedisClient" class="org.cn.kkl.erp.redis.dao.impl.JedisClientPool">
 		<property name="jedisPool" ref="jedisPool"></property>
 	</bean>
 	

@@ -1,4 +1,4 @@
-package org.cn.kkl.erp.dao;
+package org.cn.kkl.erp.redis.dao;
 
 import java.util.List;
 
