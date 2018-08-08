@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.cn.kkl.erp.entity.Inventory" table="Inventory">
+		<id name="uuid">
+			<generator class="native"></generator>
+		</id>
+		<property name="goodsUuid" />
+		<property name="storeUuid" />
+		<property name="num" />
+		<property name="type" />
+		<property name="createTime" />
+		<property name="checkTime" />
+		<property name="creater" />
+		<property name="checker" />
+		<property name="state" />
+		<property name="remark" />
+	</class>
+	
+</hibernate-mapping>

@@ -32,5 +32,25 @@
 		<property name="goodsDao" ref="goodsDao"></property>
 	</bean>
 	
+	<!-- goods -->
+	<bean id="storeBiz" class="org.cn.kkl.erp.biz.impl.StoreBiz">
+		<property name="storeDao" ref="storeDao"></property>
+	</bean>
+	
+	<!-- inventory -->
+	<bean id="inventoryBiz" class="org.cn.kkl.erp.biz.impl.InventoryBiz">
+		<property name="inventoryDao" ref="inventoryDao"></property>
+	</bean>
+	
+	<!-- menu -->
+	<bean id="menuBiz" class="org.cn.kkl.erp.biz.impl.MenuBiz">
+		<property name="menuDao" ref="menuDao"></property>
+	</bean>
+	
+	<!-- role -->
+	<bean id="roleBiz" class="org.cn.kkl.erp.biz.impl.RoleBiz">
+		<property name="roleDao" ref="roleDao"></property>
+	</bean>
+	
 </beans>
 	

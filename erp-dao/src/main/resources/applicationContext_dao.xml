@@ -34,6 +34,26 @@
 	<bean id="goodsDao" class="org.cn.kkl.erp.dao.impl.GoodsDao">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	
+	<!-- store -->
+	<bean id="storeDao" class="org.cn.kkl.erp.dao.impl.StoreDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- inventory -->
+	<bean id="inventoryDao" class="org.cn.kkl.erp.dao.impl.InventoryDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- menu -->
+	<bean id="menuDao" class="org.cn.kkl.erp.dao.impl.MenuDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- role -->
+	<bean id="roleDao" class="org.cn.kkl.erp.dao.impl.RoleDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 
 	
 </beans>

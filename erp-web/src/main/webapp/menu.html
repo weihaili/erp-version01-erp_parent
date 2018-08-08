@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>menu management</title>
+<link rel="stylesheet" type="text/css"
+	href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="js/crud.js"></script>
+<script type="text/javascript">
+	var name='menu';
+	var width=340;
+	var height=280;
+	var columns=[[    
+			        {field:'menuId',title:'Id',width:60,align:'center'},    
+			        {field:'menuName',title:'Name',width:120,align:'center'}, 
+			        {field:'icon',title:'icon',width:120,align:'center'},
+			        {field:'url',title:'url',width:120,align:'center'},
+			        {field:'pid',title:'superior menuId',width:120,align:'center'},
+			        {field:'-',title:'operation',width:100,align:'center',
+			        	formatter: function(value,row,index){
+				        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
+				        	oper+= ' <a href="javascript:void(0)" onclick="del('+row.uuid+');">delete</a>';
+							return oper;
+						}
+				    }    
+			    ]]
+</script>
+
+</head>
+<body>
+	<div class="easyui-panel" style="padding-left: 4px;border-bottom: 0px;">
+		<div style="height: 2px;"></div>
+		<form id="searchForm">
+			<table>
+				<tr>
+					<td>menu name:</td>
+					<td><input type="text" name="t1.menuName" /></td>
+				</tr>
+				<tr>
+					<td>menu id:</td>
+					<td><input type="text" name="t1.menuId" /></td>
+				</tr>
+				<tr>
+					<td>url:</td>
+					<td><input type="text" name="t1.url" /></td>
+				</tr>
+				<tr>
+					<td>superior menuId:</td>
+					<td><input type="text" name="t1.pid" /></td>
+				</tr>
+			</table>
+
+			<button id="btn_search" type="button">search</button>
+		</form>
+		<div style="height: 2px;"></div>
+	</div>
+
+	<table id="grid"></table>
+	
+	<div id="editDlg">
+		<form id="editForm">
+			<input type="hidden" name="t.menuId">			
+			<table>
+				<tr>
+					<td>menu name:</td>
+					<td><input type="text" name="t.menuName" /></td>
+				</tr>
+				<tr>
+					<td>icon:</td>
+					<td><input type="text" name="t.icon" /></td>
+				</tr>
+				<tr>
+					<td>url:</td>
+					<td><input type="text" name="t.url" /></td>
+				</tr>
+				<tr>
+					<td>superior menuId:</td>
+					<td><input type="text" name="t.pid" /></td>
+				</tr>
+			</table>
+			<button id="btnSave" type="button">save</button>
+			<button id="btnCancel" type="button">cancel</button>
+		</form>
+	</div>  
+
+	
+</body>
+</html>

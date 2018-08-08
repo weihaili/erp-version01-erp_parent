@@ -12,6 +12,11 @@ public class EmpBiz extends BaseBiz<Emp> implements IEmpBiz {
 		this.empDao = empDao;
 		super.setBaseDao(this.empDao);
 	}
+
+	@Override
+	public Emp findByUsernameAndPwd(String username, String password) {
+		return empDao.findByUsernameAndPwd(username, password);
+	}
 	
 	
 

@@ -27,7 +27,26 @@
 	<bean id="goodsAction" class="org.cn.kkl.erp.action.GoodsAction" scope="prototype">
 		<property name="goodsBiz" ref="goodsBiz"></property>
 	</bean>
+	
+	<bean id="storeAction" class="org.cn.kkl.erp.action.StoreAction" scope="prototype">
+		<property name="storeBiz" ref="storeBiz"></property>
+	</bean>
+	
+	<bean id="inventoryAction" class="org.cn.kkl.erp.action.InventoryAction" scope="prototype">
+		<property name="inventoryBiz" ref="inventoryBiz"></property>
+	</bean>
 
+	<bean id="menuAction" class="org.cn.kkl.erp.action.MenuAction" scope="prototype">
+		<property name="menuBiz" ref="menuBiz"></property>
+	</bean>
+	
+	<bean id="loginAction" class="org.cn.kkl.erp.action.LoginAction" scope="prototype">
+		<property name="empBiz" ref="empBiz"></property>
+	</bean>
+	
+	<bean id="roleAction" class="org.cn.kkl.erp.action.RoleAction" scope="prototype">
+		<property name="roleBiz" ref="roleBiz"></property>
+	</bean>
 	
 </beans>
 	

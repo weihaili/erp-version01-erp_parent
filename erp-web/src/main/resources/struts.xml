@@ -11,6 +11,16 @@
     	<action name="goodsType_*" class="goodsTypeAction" method="{1}"></action>
     	
     	<action name="goods_*" class="goodsAction" method="{1}"></action>
+    	
+    	<action name="store_*" class="storeAction" method="{1}"></action>
+    	
+    	<action name="inventory_*" class="inventoryAction" method="{1}"></action>
+    	
+    	<action name="menu_*" class="menuAction" method="{1}"></action>
+    	
+    	<action name="login_*" class="loginAction" method="{1}"></action>
+    	
+    	<action name="role_*" class="roleAction" method="{1}"></action>
     </package>
     
 </struts>

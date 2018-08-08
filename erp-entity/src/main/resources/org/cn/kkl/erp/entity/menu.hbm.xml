@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.cn.kkl.erp.entity.Menu" table="Menu">
+		<id name="menuId">
+			<generator class="native"></generator>
+		</id>
+		<property name="menuName" />
+		<property name="icon" />
+		<property name="url" />
+		<!-- self correlation -->
+		<bag name="menus" order-by="menuId">
+			<key column="pid"></key>
+			<one-to-many class="org.cn.kkl.erp.entity.Menu"/>
+		</bag>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.cn.kkl.erp.entity.Store" table="Store">
+		<id name="uuid">
+			<generator class="native"></generator>
+		</id>
+		<property name="name" />
+		<property name="empuuid"></property>
+		<!-- <set name="emp">
+			<key column="empuuid"></key>
+			<one-to-many class="org.cn.kkl.erp.entity.Emp"/>
+		</set> -->
+	</class>
+</hibernate-mapping>

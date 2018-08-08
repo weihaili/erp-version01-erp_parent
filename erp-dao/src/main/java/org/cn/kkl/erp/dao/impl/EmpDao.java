@@ -3,6 +3,7 @@ package org.cn.kkl.erp.dao.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -66,4 +67,18 @@ public class EmpDao extends BaseDao<Emp> implements IEmpDao {
 		return criteria;
 	}
 
+	/* 
+	 * user login verification
+	 */
+	@Override
+	public Emp findByUsernameAndPwd(String username, String password) {
+		String sql="FROM Emp where username=? and pwd=? ";
+		List<Emp> list = (List<Emp>) this.getHibernateTemplate().find(sql, username,password);
+		if (null!=list && list.size()>0) {
+			return list.get(0);
+		}
+		return null;
+	}
+
+	
 }

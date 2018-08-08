@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>inventory management</title>
+<link rel="stylesheet" type="text/css"
+	href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="ui/date.js"></script>
+<script type="text/javascript" src="js/crud.js"></script>
+<script type="text/javascript">
+	var name='inventory';
+	var width=300;
+	var height=350;
+	var dataTimeFormat='yyyy-MM-dd hh:mm:ss';
+	var dateFormat='yyyy-MM-dd';
+	var columns=[[    
+			        {field:'uuid',title:'Id',width:60,align:'center'},
+			        {field:'goodsUuid',title:'goods id',width:60,align:'center'}, 
+			        {field:'storeUuid',title:'store id',width:60,align:'center'},
+			        {field:'storeUuid',title:'store id',width:60,align:'center'},     
+			        {field:'num',title:'quantity',width:60,align:'center'},    
+			        {field:'type',title:'type',width:30,align:'center'},    
+			        {field:'createTime',title:'create date',width:130,align:'center',formatter:function(value,row,index){
+						return new Date(value).Format(dataTimeFormat);
+				    }},    
+			        {field:'checkTime',title:'check date',width:130,align:'center',formatter:function(value,row,index){
+						return new Date(value).Format(dataTimeFormat);
+					}},    
+			        {field:'creater',title:'creater',width:60,align:'center'},    
+			        {field:'checker',title:'checker',width:60,align:'center'},    
+			        {field:'state',title:'state',width:30,align:'center'},    
+			        {field:'remark',title:'remark',width:60,align:'center'},    
+			        {field:'-',title:'operation',width:100,align:'center',
+			        	formatter: function(value,row,index){
+				        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
+				        	oper+= ' <a href="javascript:void(0)" onclick="del('+row.uuid+');">delete</a>';
+							return oper;
+						}
+				    }    
+			    ]]
+</script>
+
+</head>
+<body>
+	<div class="easyui-panel" style="padding-left: 4px;border-bottom: 0px;">
+		<div style="height: 2px;"></div>
+		<form id="searchForm">
+			<table>
+				<tr>
+					<td>goods id:</td>
+					<td><input type="text" name="t1.goodsUuid" /></td>
+				</tr>
+				<tr>
+					<td>store id:</td>
+					<td><input type="text" name="t1.storeUuid" /></td>
+				</tr>
+				<tr>
+					<td>quantity:</td>
+					<td><input type="text" name="t1.num" class="easyui-numberbox" data-options="min:0,precision:2" /> -->
+						<input type="text" name="t2.num" class="easyui-numberbox" data-options="min:0,precision:2" />
+					</td>
+				</tr>
+				<tr>
+					<td>type:</td>
+					<td><input type="text" name="t1.type" /></td>
+				</tr>
+				<tr>
+					<td>create date:</td>
+					<td><input type="text" name="t1.createTime" class="easyui-datetimebox" editable="false"/> -->
+						<input type="text" name="t2.createTime" class="easyui-datetimebox" editable="false"/>
+					</td>
+				</tr>
+				<tr>
+					<td>check date:</td>
+					<td><input type="text" name="t1.checkTime" class="easyui-datetimebox" editable="false"/> -->
+						<input type="text" name="t2.checkTime" class="easyui-datetimebox" editable="false"/>
+					</td>
+				</tr>
+				<tr>
+					<td>creater:</td>
+					<td><input type="text" name="t1.creater" /></td>
+				</tr>
+				<tr>
+					<td>checker:</td>
+					<td><input type="text" name="t1.checker" /></td>
+				</tr>
+				<tr>
+					<td>state:</td>
+					<td><input type="text" name="t1.state" /></td>
+				</tr>
+				<tr>
+					<td>remark:</td>
+					<td><input type="text" name="t1.remark" /></td>
+				</tr>
+			</table>
+
+			<button id="btn_search" type="button">search</button>
+		</form>
+		<div style="height: 2px;"></div>
+	</div>
+
+	<table id="grid"></table>
+	
+	<div id="editDlg">
+		<form id="editForm">
+			<input type="hidden" name="t.uuid">			
+			<table>
+				<tr>
+					<td>goods id:</td>
+					<td><input type="text" name="t.goodsUuid" /></td>
+				</tr>
+				<tr>
+					<td>store id:</td>
+					<td><input type="text" name="t.storeUuid" /></td>
+				</tr>
+				<tr>
+					<td>quantity:</td>
+					<td><input type="text" name="t.num" class="easyui-numberbox" data-options="min:0,precision:2" /></td>
+				</tr>
+				<tr>
+					<td>type:</td>
+					<td><input type="text" name="t.type" /></td>
+				</tr>
+				<tr>
+					<td>create time:</td>
+					<td><input type="text" name="t.createTime" class="easyui-datetimebox" editable="false" /></td>
+				</tr>
+				<tr>
+					<td>check time:</td>
+					<td><input type="text" name="t.checkTime" class="easyui-datetimebox" editable="false" /></td>
+				</tr>
+				<tr>
+					<td>creater:</td>
+					<td><input type="text" name="t.creater" /></td>
+				</tr>
+				<tr>
+					<td>checker:</td>
+					<td><input type="text" name="t.checker" /></td>
+				</tr>
+				<tr>
+					<td>state:</td>
+					<td><input type="text" name="t.state" /></td>
+				</tr>
+				<tr>
+					<td>remark:</td>
+					<!-- <td><input type="text" name="t.remark" /></td> -->
+					<td><textarea rows='3' cols="20" name="t.remark"></textarea></td>
+				</tr>
+			</table>
+			<button id="btnSave" type="button">save</button>
+			<button id="btnCancel" type="button">cancel</button>
+		</form>
+	</div>  
+
+	
+</body>
+</html>
