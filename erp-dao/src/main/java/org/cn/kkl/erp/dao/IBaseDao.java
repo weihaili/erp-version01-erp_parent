@@ -30,6 +30,8 @@ public interface IBaseDao<T> {
 	 * @return
 	 */
 	T get(Long uuid);
+	
+	T get(String uuid);
 
 	/**
 	 * update 

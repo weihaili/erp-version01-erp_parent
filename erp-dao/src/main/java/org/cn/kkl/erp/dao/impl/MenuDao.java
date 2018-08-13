@@ -13,8 +13,8 @@ public class MenuDao extends BaseDao<Menu> implements IMenuDao {
 	public DetachedCriteria getDetachedCriteria(Menu menu1, Menu menu2, Object param) {
 		DetachedCriteria criteria=DetachedCriteria.forClass(Menu.class);
 		if (null!=menu1) {
-			if (StringUtils.isNotBlank(menu1.getMenuName())) {
-				criteria.add(Restrictions.like("menuName", menu1.getMenuName(),MatchMode.ANYWHERE));
+			if (StringUtils.isNotBlank(menu1.getMenuname())) {
+				criteria.add(Restrictions.like("menuname", menu1.getMenuname(),MatchMode.ANYWHERE));
 			}
 			if (StringUtils.isNotBlank(menu1.getUrl())) {
 				criteria.add(Restrictions.like("url", menu1.getUrl(), MatchMode.START));

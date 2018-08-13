@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>supplier management</title>
+<link rel="stylesheet" type="text/css"
+	href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="ui/request.js"></script>
+<script type="text/javascript" src="js/crud.js"></script>
+<script type="text/javascript">
+	if(Request['type']==1){
+		document.title='supplier management';
+		listParam='?t1.type=1';
+		saveParam='?t.type=1';
+	}
+	if(Request['type']==2){
+		document.title='client management';
+		listParam='?t1.type=2';
+		saveParam='?t.type=2';
+	}
+	var name='supplier';
+	var width=340;
+	var height=220;
+	var columns=[[    
+        {field:'uuid',title:'id',width:60,align:'center'},    
+        {field:'name',title:'name',width:120,align:'center'}, 
+        {field:'address',title:'address',width:120,align:'center'},
+        {field:'contact',title:'contact',width:120,align:'center'},
+        {field:'tele',title:'telephone',width:120,align:'center'},
+        {field:'email',title:'email',width:120,align:'center'},
+        /* {field:'type',title:'type',width:120,align:'center',formatter:function(value,row,index){
+			if(1==value*1){
+				return 'supplier';
+			}
+			if(2==value*1){
+				return 'client';
+			}
+	    }}, */
+        {field:'-',title:'operation',width:100,align:'center',
+        	formatter: function(value,row,index){
+	        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
+	        	oper+= ' <a href="javascript:void(0)" onclick="del('+row.uuid+');">delete</a>';
+				return oper;
+			}
+	    }    
+    ]]
+</script>
+
+</head>
+<body>
+	<div class="easyui-panel" style="padding-left: 4px;border-bottom: 0px;">
+		<div style="height: 2px;"></div>
+		<form id="searchForm">
+			<table>
+				<tr>
+					<td>id:</td>
+					<td><input type="text" name="t1.uuid" /></td>
+				</tr>
+				<tr>
+					<td>name:</td>
+					<td><input type="text" name="t1.name" /></td>
+				</tr>
+				<tr>
+					<td>address:</td>
+					<td><input type="text" name="t1.address" /></td>
+				</tr>
+				<tr>
+					<td>contact:</td>
+					<td><input type="text" name="t1.contact" /></td>
+				</tr>
+				<tr>
+					<td>telephone:</td>
+					<td><input type="text" name="t1.tele" /></td>
+				</tr>
+				<tr>
+					<td>email:</td>
+					<td><input type="text" name="t1.email" /></td>
+				</tr>
+				<!-- <tr>
+					<td>type:</td>
+					<td><select name="t1.type" class="easyui-combobox" style="width:175px;" editable="false" >
+							<option value="">--please choose type--</option>
+							<option value="1">supplier</option>
+							<option value="2">client</option>
+						</select>
+					</td>
+				</tr> -->
+			</table>
+
+			<button id="btn_search" type="button">search</button>
+		</form>
+		<div style="height: 2px;"></div>
+	</div>
+
+	<table id="grid"></table>
+	
+	<div id="editDlg">
+		<form id="editForm">
+			<input type="hidden" name="t.uuid">			
+			<table>
+				<tr>
+					<td>name:</td>
+					<td><input type="text" name="t.name" /></td>
+				</tr>
+				<tr>
+					<td>address:</td>
+					<td><input type="text" name="t.address" /></td>
+				</tr>
+				<tr>
+					<td>contact:</td>
+					<td><input type="text" name="t.contact" /></td>
+				</tr>
+				<tr>
+					<td>telephone:</td>
+					<td><input type="text" name="t.tele" /></td>
+				</tr>
+				<tr>
+					<td>email:</td>
+					<td><input type="text" name="t.email" /></td>
+				</tr>
+				<!-- <tr>
+					<td>type:</td>
+					<td><select name="t.type" class="easyui-combobox" style="width:175px;" editable="false" >
+							<option value="">--please choose type--</option>
+							<option value="1">supplier</option>
+							<option value="2">client</option>
+						</select>
+					</td>
+				</tr> -->
+			</table>
+			<button id="btnSave" type="button">save</button>
+			<button id="btnCancel" type="button">cancel</button>
+		</form>
+	</div>  
+
+	
+</body>
+</html>

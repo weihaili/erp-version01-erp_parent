@@ -93,6 +93,11 @@ public class BaseDao<T> extends HibernateDaoSupport implements IBaseDao<T> {
 	public T get(Long uuid) {
 		return this.getHibernateTemplate().get(entityClass,uuid);
 	}
+	
+	@Override
+	public T get(String uuid) {
+		return this.getHibernateTemplate().get(entityClass,uuid);
+	}
 
 	/* 
 	 * update 

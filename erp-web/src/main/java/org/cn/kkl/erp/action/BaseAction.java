@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 import org.cn.kkl.erp.biz.IBaseBiz;
+import org.cn.kkl.erp.entity.Emp;
 import org.springframework.http.MediaType;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.opensymphony.xwork2.ActionContext;
 
 public class BaseAction<T> {
 	
@@ -173,7 +175,7 @@ public class BaseAction<T> {
 	 * common method
 	 * @param jsonStr need to write to return page string
 	 */
-	private void write(String  jsonStr){
+	public void write(String  jsonStr){
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setContentType(MediaType.TEXT_PLAIN_VALUE+";charset=utf-8");;
 		try {
@@ -190,7 +192,7 @@ public class BaseAction<T> {
 	 * example: jsonStr : {"name":"管理员组","tele":"000000","uuid":1}
 	 * return : {"t.name":"管理员组","t.tele":"000000","t.uuid":1}
 	 */
-	private String mapData(String jsonStr,String prefix){
+	public String mapData(String jsonStr,String prefix){
 		Map<String, Object> map=JSON.parseObject(jsonStr);
 		Map<String, Object> dataMap=new HashMap<>();
 		for (String key : map.keySet()) {
@@ -211,10 +213,19 @@ public class BaseAction<T> {
 	 * @param success
 	 * @param message
 	 */
-	private void ajaxReturn(boolean success,String message) {
+	public void ajaxReturn(boolean success,String message) {
 		Map<String, Object> rtn=new HashMap<>();
 		rtn.put("success", success);
 		rtn.put("message", message);
 		write(JSON.toJSONString(rtn));
+	}
+	
+	/**
+	 * get login emp from session
+	 * @return
+	 */
+	public Emp getLoginUser(){
+		Emp emp=(Emp) ActionContext.getContext().getSession().get("loginUser");
+		return emp;
 	}
 }

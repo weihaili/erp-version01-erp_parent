@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>reset password</title>
+<link rel="stylesheet" type="text/css"
+	href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="js/pwd.js"></script>
+<script type="text/javascript" src="ui/date.js"></script>
+
+</head>
+<body>
+
+<!-- data table -->
+<table id="grid"></table>
+
+<!-- reset password pop dialog -->
+<div id="editDlg">
+		<form id="editForm">
+			<input type="hidden" name="id">			
+			<table>
+				<tr>
+					<td>password:</td>
+					<td><input type="password" name="newPwd" id="newPwd" class="easyui-validatebox" data-options="required:true"/></td>
+				</tr>
+			</table>
+			<!-- <button id="btnSave" type="button">reset password</button>
+			<button id="btnCancel" type="button">cancel</button> -->
+		</form>
+	</div>  
+
+</body>
+</html>

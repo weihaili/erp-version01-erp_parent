@@ -48,5 +48,21 @@
 		<property name="roleBiz" ref="roleBiz"></property>
 	</bean>
 	
+	<bean id="empRoleAction" class="org.cn.kkl.erp.action.EmpRoleAction" scope="prototype">
+		<property name="empRoleBiz" ref="empRoleBiz"></property>
+	</bean>
+	
+	<bean id="orderAction" class="org.cn.kkl.erp.action.OrderAction" scope="prototype">
+		<property name="orderBiz" ref="orderBiz"></property>
+	</bean>
+	
+	<bean id="supplierAction" class="org.cn.kkl.erp.action.SupplierAction" scope="prototype">
+		<property name="supplierBiz" ref="supplierBiz"></property>
+	</bean>
+	
+	<bean id="orderDetailAction" class="org.cn.kkl.erp.action.OrderDetailAction" scope="prototype">
+		<property name="orderDetailBiz" ref="orderDetailBiz"></property>
+	</bean>
+	
 </beans>
 	

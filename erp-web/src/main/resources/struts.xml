@@ -21,6 +21,14 @@
     	<action name="login_*" class="loginAction" method="{1}"></action>
     	
     	<action name="role_*" class="roleAction" method="{1}"></action>
+    	
+    	<action name="empRole_*" class="empRoleAction" method="{1}"></action>
+    	
+    	<action name="order_*" class="orderAction" method="{1}"></action>
+    	
+    	<action name="supplier_*" class="supplierAction" method="{1}"></action>
+    	
+    	<action name="orderDetail_*" class="orderDetailAction" method="{1}"></action>
     </package>
     
 </struts>

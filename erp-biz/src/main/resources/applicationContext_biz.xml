@@ -52,5 +52,25 @@
 		<property name="roleDao" ref="roleDao"></property>
 	</bean>
 	
+	<!-- empRole -->
+	<bean id="empRoleBiz" class="org.cn.kkl.erp.biz.impl.EmpRoleBiz">
+		<property name="empRoleDao" ref="empRoleDao"></property>
+	</bean>
+	
+	<!-- order -->
+	<bean id="orderBiz" class="org.cn.kkl.erp.biz.impl.OrderBiz">
+		<property name="orderDao" ref="orderDao"></property>
+	</bean>
+	
+	<!-- supplier -->
+	<bean id="supplierBiz" class="org.cn.kkl.erp.biz.impl.SupplierBiz">
+		<property name="supplierDao" ref="supplierDao"></property>
+	</bean>
+	
+	<!-- orderDetail -->
+	<bean id="orderDetailBiz" class="org.cn.kkl.erp.biz.impl.OrderDetailBiz">
+		<property name="orderDetailDao" ref="orderDetailDao"></property>
+	</bean>
+	
 </beans>
 	

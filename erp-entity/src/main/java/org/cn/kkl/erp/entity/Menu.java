@@ -10,22 +10,22 @@ public class Menu implements Serializable {
 	 */
 	private static final long serialVersionUID = 251230937641123992L;
 	
-	private Long menuId;
-	private String menuName;
+	private String menuid;
+	private String menuname;
 	private String icon;
 	private String url;
 	private List<Menu> menus;
-	public Long getMenuId() {
-		return menuId;
+	public String getMenuid() {
+		return menuid;
 	}
-	public void setMenuId(Long menuId) {
-		this.menuId = menuId;
+	public void setMenuid(String menuid) {
+		this.menuid = menuid;
 	}
-	public String getMenuName() {
-		return menuName;
+	public String getMenuname() {
+		return menuname;
 	}
-	public void setMenuName(String menuName) {
-		this.menuName = menuName;
+	public void setMenuname(String menuname) {
+		this.menuname = menuname;
 	}
 	public String getIcon() {
 		return icon;

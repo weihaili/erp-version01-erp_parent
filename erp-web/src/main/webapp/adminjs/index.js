@@ -5,7 +5,7 @@ window.onload = function(){
 var onlyOpenTitle="欢迎使用";//不允许关闭的标签的标题
 
 var _menus={
-		"icon":"icon-sys",
+		/*"icon":"icon-sys",
 		"menuid":"0",
 		"menuname":"system menu",
 		"menus":
@@ -21,17 +21,15 @@ var _menus={
 			 	},
 			 	
 			 	{
-			 		"icon":"icon-sys","menuid":"100","menuname":"HR management","menus":
+			 		"icon":"icon-sys","menuid":"200","menuname":"HR management","menus":
 					[
 						{"icon":"icon-sys","menuid":"201","menuname":"department management","url":"dep.html"}	,
 						{"icon":"icon-sys","menuid":"202","menuname":"employee management","url":"emp.html"}						
 					]
 			 	}
 			 	
-			 ]
+			 ]*/
 		};
-
-
 
 
 $(function(){	
@@ -40,7 +38,21 @@ $(function(){
 	 */
 	showName();
 	
-	InitLeftMenu();
+	/**
+	 * get menu data
+	 */
+	$.ajax({
+		url: "menu_getMenuTree",
+		type: "post",
+		dataType: "json",
+		success: function(data){
+			//initialization menu
+			_menus = data;
+			//$.messager.alert('note',JSON.stringify(_menus),'info');
+			InitLeftMenu();
+		}
+	});
+	
 	tabClose();
 	tabCloseEven();
 	
@@ -73,7 +85,7 @@ function showName(){
 				$('#username').html(rtn.message);
 			}else{
 				//$.messager.alert('note',rtn.message,'info');
-				location.url='login.html';
+				location.href='login.html';
 			}
 		}
 		/*,error:function(){
@@ -89,14 +101,15 @@ function InitLeftMenu() {
 	var selectedPanelname = '';
 	
 	    $.each(_menus.menus, function(i, n) {
+	    	//$.messager.alert('note',JSON.stringify(_menus.menus),'info');
 			var menulist ='';
 			menulist +='<ul class="navlist">';
 	        $.each(n.menus, function(j, o) {
 				menulist += '<li><div ><a ref="'+o.menuid+'" href="#" rel="' + o.url + '" ><span class="icon '+o.icon+'" >&nbsp;</span><span class="nav">' + o.menuname + '</span></a></div> ';
-				/*
+				
 				if(o.child && o.child.length>0)
 				{
-					//li.find('div').addClass('icon-arrow');
+					li.find('div').addClass('icon-arrow');
 	
 					menulist += '<ul class="third_ul">';
 					$.each(o.child,function(k,p){
@@ -104,7 +117,7 @@ function InitLeftMenu() {
 					});
 					menulist += '</ul>';
 				}
-				*/
+				
 				menulist+='</li>';
 	        })
 			menulist += '</ul>';
@@ -336,16 +349,93 @@ function msgShow(title, msgString, msgType) {
 
 
 
-//设置登录窗口
-function openPwd() {
+//use window implement modify password
+/*function openPwd() {
     $('#w').window({
-        title: '修改密码',
+        title: 'modify password',
         width: 300,
+        height: 180,
         modal: true,
         shadow: true,
         closed: true,
-        height: 160,
-        resizable:false
+        iconCls:'icon-edit',
+        resizable:false//adjustable size
+
+    });
+};*/
+
+//use dialog implement modify password
+function openPwd() {
+    $('#w').dialog({
+        title: 'modify password',
+        width: 300,
+        height: 190,
+        modal: true,
+        //shadow: true,
+        closed: true,
+        iconCls:'icon-edit',
+        //resizable:false//adjustable size
+        buttons:[{
+			text:'save',
+			iconCls: 'icon-save',
+			handler:function(){
+				//submit save
+				/**
+				 * 1. validation
+				 * empty check: 1. if(oldPwd == '')
+				 *              2. if(!oldPwd)
+				 * 2. submit
+				 * 3. after modifying successfully,close dialog and clear enter all password content.
+				 */
+				var oldPwd=$('#texOldPass').val();
+				var newPwd=$('#texNewPass').val();
+				var rePwd=$('#texRePass').val();
+				
+				if(!oldPwd){
+					$.messager.alert('system prompt message','please enter original password !','warning');
+					return;
+				}
+				if(newPwd==''){
+					$.messager.alert('system prompt message','please enter new password !','warning');
+					return;
+				}
+				if(rePwd==''){
+					$.messager.alert('system prompt message','please enter new password again!','warning');
+					return ;
+				}
+				if(newPwd != rePwd){
+					$.messager.alert('system prompt message','inconsistent password entered twice,please enter again','warning');
+					return ;
+				}
+				
+				$.ajax({
+					url:'emp_updatePwd',
+					data:{'oldPwd':oldPwd,"newPwd":newPwd},
+					type:'post',
+					dataType:'json',
+					success:function(data){
+						$.messager.alert('system prompt message','modify password successful,your new password is:'+data.message,'info',function(){
+							if(data.success){
+								$('#w').dialog('close');
+								$('#txtOldPass').val('');
+								$('#txtNewPass').val('');
+								$('#txtRePass').val('');
+							}
+						});
+					}
+				});
+				
+				
+				
+			}
+		},{
+			text:'close',
+			iconCls: 'icon-cancel',
+			handler:function(){
+				closePwd();
+			}
+		}]
+
     });
 }
 //关闭登录窗口
@@ -357,20 +447,26 @@ function closePwd() {
 
 //修改密码
 function serverLogin() {
-    var $newpass = $('#txtNewPass');
+	var $oldpass = $('#texOldPass');
+    var $newpass = $('#texNewPass');
     var $rePass = $('#txtRePass');
+    
+    if ($oldpass.val() == '') {
+        msgShow('system prompt message', 'please enter the original password ！', 'warning');
+        return false;
+    }
 
     if ($newpass.val() == '') {
-        msgShow('系统提示', '请输入密码！', 'warning');
+        msgShow('system prompt message', 'please enter new password ！', 'warning');
         return false;
     }
     if ($rePass.val() == '') {
-        msgShow('系统提示', '请在一次输入密码！', 'warning');
+        msgShow('system prompt message', 'please enter new password again ！', 'warning');
         return false;
     }
 
     if ($newpass.val() != $rePass.val()) {
-        msgShow('系统提示', '两次密码不一至！请重新输入', 'warning');
+        msgShow('system prompt message', 'inconsistent password entered twice,please enter again', 'warning');
         return false;
     }
 
@@ -391,12 +487,19 @@ $(function() {
         $('#w').window('open');
     });
 
-    $('#btnEp').click(function() {
+   /* $('#btnEp').click(function() {
         serverLogin();
     })
 
-	$('#btnCancel').click(function(){closePwd();})
-
+	$('#btnCancel').click(function(){closePwd();})*/
+    
+    $('#btnCf').bind('click',function(){
+    	serverLogin();
+    });
+    
+    $('#btnCc').bind('click',function(){
+    	closePwd();
+    });
    
 });
 

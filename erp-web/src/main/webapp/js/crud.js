@@ -1,8 +1,9 @@
 var method = '';
-var saveParam ='';
+var listParam ='';
+var saveParam='';
 $(function(){
 	$('#grid').datagrid({    
-	    url:name+'_listByCondition',   
+	    url:name+'_listByCondition'+listParam,   
 	    columns:columns,
 	    singleSelect: true,
 	    rownumbers: true,
@@ -15,6 +16,7 @@ $(function(){
 			handler: function(){
 				method="add";
 				$('#editDlg').dialog('open');
+				$('#editForm').form('clear');
 			}
 		}]
 	}); 

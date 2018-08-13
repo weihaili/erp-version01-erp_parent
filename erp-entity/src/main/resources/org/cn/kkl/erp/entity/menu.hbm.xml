@@ -3,14 +3,14 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="org.cn.kkl.erp.entity.Menu" table="Menu">
-		<id name="menuId">
+		<id name="menuid">
 			<generator class="native"></generator>
 		</id>
-		<property name="menuName" />
+		<property name="menuname" />
 		<property name="icon" />
 		<property name="url" />
 		<!-- self correlation -->
-		<bag name="menus" order-by="menuId">
+		<bag name="menus" order-by="menuid">
 			<key column="pid"></key>
 			<one-to-many class="org.cn.kkl.erp.entity.Menu"/>
 		</bag>

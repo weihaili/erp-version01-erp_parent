@@ -54,6 +54,26 @@
 	<bean id="roleDao" class="org.cn.kkl.erp.dao.impl.RoleDao">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	
+	<!-- EmpRole -->
+	<bean id="empRoleDao" class="org.cn.kkl.erp.dao.impl.EmpRoleDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- order -->
+	<bean id="orderDao" class="org.cn.kkl.erp.dao.impl.OrderDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- supplier -->
+	<bean id="supplierDao" class="org.cn.kkl.erp.dao.impl.SupplierDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- orderDetail -->
+	<bean id="orderDetailDao" class="org.cn.kkl.erp.dao.impl.OrderDetailDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 
 	
 </beans>

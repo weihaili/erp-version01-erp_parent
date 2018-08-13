@@ -1,12 +1,10 @@
 package org.cn.kkl.erp.dao.impl;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.cn.kkl.erp.dao.IEmpDao;
 import org.cn.kkl.erp.entity.Emp;
 import org.hibernate.criterion.DetachedCriteria;
@@ -14,6 +12,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
 public class EmpDao extends BaseDao<Emp> implements IEmpDao {
+	
 	
 	/**
 	 * @param paramDep
@@ -80,5 +79,17 @@ public class EmpDao extends BaseDao<Emp> implements IEmpDao {
 		return null;
 	}
 
+	/* 
+	 * update password by uuid
+	 */
+	@Override
+	public void updatePwd(Long uuid,String newPwd) {
+		String sql="UPDATE Emp SET PWD = ? WHERE UUID=? ";
+		this.getHibernateTemplate().bulkUpdate(sql, newPwd,uuid);
+	}
+
+	
+	
+	
 	
 }

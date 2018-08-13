@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>order management</title>
+<link rel="stylesheet" type="text/css"
+	href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="js/crud.js"></script>
+<script type="text/javascript" src="ui/date.js"></script>
+<script type="text/javascript">
+	var name='orderDetail';
+	var height=320;
+	var width=280;
+	var columns=[[    
+			        {field:'uuid',title:'id',width:50,align:'center'},
+			        {field:'goodsuuid',title:'goods id',width:60,align:'center'},
+			        {field:'goodsname',title:'goods name',width:80,align:'center'},
+			        {field:'price',title:'price',width:50,align:'center'},
+			        {field:'num',title:'quantity',width:60,align:'center'},
+			        {field:'money',title:'money',width:50,align:'center'},
+			        {field:'endtime',title:'end time',width:130,align:'center',formatter:function(value){
+						return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
+				    }},
+				    {field:'ender',title:'ender id',width:60,align:'center'},
+				    {field:'storeuuid',title:'store id',width:60,align:'center'},
+				    {field:'state',title:'state',width:130,align:'center',formatter:function(value,row,index){
+						if(0==value*1) return 'not in stock';
+						if(1==value*1) return 'warehousing';
+						if(8==value*1) return 'not out of stock';
+						if(9==value*1) return 'has been shipped out';
+				    }},    
+			        {field:'ordersuuid',title:'order id',width:60,align:'center'},
+			        {field:'-',title:'operation',width:100,align:'center',
+			        	formatter: function(value,row,index){
+				        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
+				        	oper+= ' <a href="javascript:void(0)" onclick="del('+row.uuid+');">delete</a>';
+							return oper;
+						}
+				    }   
+			       
+			    ]];
+	// extend the 'equals' rule    
+	$.extend($.fn.validatebox.defaults.rules, {    
+	    equals: {    
+	        validator: function(value,param){    
+	            return value == $(param[0]).val();    
+	        },    
+	        message: 'Field do not match.'   
+	    }    
+	});
+</script>
+
+</head>
+<body>
+	<div class="easyui-panel"
+		style="padding-left: 4px; border-bottom: 0px;">
+		<div style="height: 2px;"></div>
+		<form id="searchForm">
+			<table>
+				<tr>
+					<td>order detail id:</td>
+					<td><input type="text" name="t1.uuid" /></td>
+				</tr>
+				<tr>
+					<td>goods id:</td>
+					<td><input type="text" name="t1.goodsuuid" /></td>
+				</tr>
+				<tr>
+					<td>price:</td>
+					<td><input type="text" name="t1.price"
+						class="easyui-numberbox"
+						data-options="min:0,precision:2,prefix:'￥'" />--> <input
+						type="text" name="t2.price" class="easyui-numberbox"
+						data-options="min:0,precision:2,prefix:'￥'" /></td>
+				</tr>
+				<tr>
+					<td>quantity:</td>
+					<td><input type="text" name="t1.num" class="easyui-numberbox"
+						data-options="min:0,precision:2" />--> <input type="text"
+						name="t2.num" class="easyui-numberbox"
+						data-options="min:0,precision:2" /></td>
+				</tr>
+				<tr>
+					<td>money:</td>
+					<td><input type="text" name="t1.money"
+						class="easyui-numberbox"
+						data-options="min:0,precision:2,prefix:'￥'" />--> <input
+						type="text" name="t2.money" class="easyui-numberbox"
+						data-options="min:0,precision:2,prefix:'￥'" /></td>
+				</tr>
+				<tr>
+					<td>end time:</td>
+					<td><input type="text" name="t1.endtime"
+						class="easyui-datebox" editable="false" /> --> <input type="text"
+						name="t2.endtime" class="easyui-datebox" editable="false" /></td>
+				</tr>
+				<tr>
+					<td>ender id:</td>
+					<td><input type="text" name="t1.ender" /></td>
+				</tr>
+				<tr>
+					<td>store id:</td>
+					<td><input type="text" name="t1.storeuuid" /></td>
+				</tr>
+				<tr>
+					<td>state:</td>
+					<td>
+						<!-- <input type="radio" name="t1.gender" value=""/>all --> <input
+						type="radio" name="t1.state" value="0" />not in stock <input
+						type="radio" name="t1.state" value="1" />warehousing <input
+						type="radio" name="t1.state" value="8" />not out of stock <input
+						type="radio" name="t1.state" value="9" />has been shipped out
+					</td>
+				</tr>
+				<tr>
+					<td>order id:</td>
+					<td><input type="text" name="t1.ordersuuid" /></td>
+				</tr>
+
+			</table>
+
+			<button id="btn_search" type="button">search</button>
+		</form>
+		<div style="height: 2px;"></div>
+	</div>
+
+	<table id="grid"></table>
+
+	<div id="editDlg">
+		<form id="editForm">
+			<input type="hidden" name="t.uuid">
+			<table>
+				<tr>
+					<td>goods id:</td>
+					<td><input type="text" name="t.goodsuuid" /></td>
+				</tr>
+				<tr>
+					<td>goods name:</td>
+					<td><input type="text" name="t.goodsname" /></td>
+				</tr>
+				<tr>
+					<td>price:</td>
+					<td><input type='text' name="t.price" class="easyui-numberbox"
+						data-options="min:0,precision:2,prefix:'￥'" /></td>
+				</tr>
+				<tr>
+					<td>quantity:</td>
+					<td><input type="text" name="t.num" class="easyui-numberbox"
+						data-options="min:0,precision:2" /></td>
+				</tr>
+				<tr>
+					<td>money:</td>
+					<td><input type='text' name="t.money" class="easyui-numberbox"
+						data-options="min:0,precision:2,prefix:'￥'" /></td>
+				</tr>
+				<tr>
+					<td>end time:</td>
+					<td><input type="text" name="t.endtime" class="easyui-datebox"
+						editable="false" /></td>
+				</tr>
+				<tr>
+					<td>ender:</td>
+					<td><input type="text" name="t.ender" /></td>
+				</tr>
+				<tr>
+					<td>store id:</td>
+					<td><input type="text" name="t.storeuuid" /></td>
+				</tr>
+				<tr>
+					<td>type:</td>
+					<td><select  class="easyui-combobox" name="t.state" style="width: 175px;">
+							<option value="">--please choose state--</option>
+							<option value="0">not in stock</option>
+							<option value="1">warehousing</option>
+							<option value="8">not out of stock</option>
+							<option value="9">has been shipped out</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>order id:</td>
+					<td><input type="text" name="t.ordersuuid" /></td>
+				</tr>
+			</table>
+			<button id="btnSave" type="button">save</button>
+			<button id="btnCancel" type="button">cancel</button>
+		</form>
+	</div>
+
+
+</body>
+</html>

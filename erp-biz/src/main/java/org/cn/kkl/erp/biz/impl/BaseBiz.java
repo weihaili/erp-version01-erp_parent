@@ -46,6 +46,11 @@ public class BaseBiz<T> implements IBaseBiz<T> {
 	public T get(Long uuid) {
 		return baseDao.get(uuid);
 	}
+	
+	@Override
+	public T get(String uuid) {
+		return baseDao.get(uuid);
+	}
 
 	@Override
 	public void update(T t) {

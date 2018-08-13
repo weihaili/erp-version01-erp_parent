@@ -2,18 +2,18 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="org.cn.kkl.erp.entity.Emp" table="Emp">
+	<class name="org.cn.kkl.erp.entity.Supplier" table="Supplier">
 		<id name="uuid">
 			<generator class="native"></generator>
 		</id>
-		<property name="username" />
-		<property name="pwd" update="false"/>
 		<property name="name" />
-		<property name="gender" />
-		<property name="email" />
-		<property name="tele" />
 		<property name="address" />
-		<property name="birthday" />
-		<many-to-one name="dep" class="org.cn.kkl.erp.entity.Dep" column="depuuid"></many-to-one>
+		<property name="contact" />
+		<property name="tele" />
+		<property name="email" />
+		<property name="type" />
 	</class>
 </hibernate-mapping>
+
+
+                         

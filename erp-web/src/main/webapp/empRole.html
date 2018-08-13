@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>employee role management</title>
+<link rel="stylesheet" type="text/css"
+	href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="js/crud.js"></script>
+<script type="text/javascript">
+	var name='empRole';
+	var columns=[[    
+			        {field:'uuid',title:'Id',width:60,align:'center'},    
+			        {field:'empUuid',title:'employee id',width:120,align:'center'},    
+			        {field:'roleUuid',title:'role id',width:90,align:'center'},
+			        {field:'-',title:'operation',width:100,align:'center',
+			        	formatter: function(value,row,index){
+				        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
+				        	oper+= ' <a href="javascript:void(0)" onclick="del('+row.uuid+');">delete</a>';
+							return oper;
+						}
+				    }    
+			    ]]
+</script>
+
+<!-- <script type="text/javascript">
+	var method = '';
+	$(function(){
+		$('#grid').datagrid({    
+		    //url:'dep_list', 
+		    url:'dep_listByCondition',   
+		    columns:[[    
+		        {field:'uuid',title:'Id',width:60,align:'center'},    
+		        {field:'name',title:'Name',width:120,align:'center'},    
+		        {field:'tele',title:'telephone',width:90,align:'center'},
+		        {field:'-',title:'operation',width:100,align:'center',
+		        	formatter: function(value,row,index){
+			        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
+			        	oper+= ' <a href="javascript:void(0)" onclick="del('+row.uuid+');">delete</a>';
+						return oper;
+					}
+			    }    
+		    ]],
+		    singleSelect: true,
+		    rownumbers: true,
+		    pagePosition: 'both',
+		    pagination: true ,
+		    //tool bar
+		    toolbar: [{
+			    text: 'add',
+				iconCls: 'icon-add',
+				handler: function(){
+					method="add";
+					$('#editDlg').dialog('open');
+				}
+			
+			}]
+				      
+		}); 
+
+		//query department list by condition
+		$('#btn_search').bind('click',function(){
+			var formData=$('#searchForm').serializeJSON();
+			//alert(JSON.stringify(formData));
+			//alert(JSON.stringify($('#grid').datagrid('getData')));
+			$('#grid').datagrid('load',formData);
+			/* $.ajax({
+				url: 'dep_listByCondition',
+				data: formData,
+				dataType: 'json',
+				type: 'post',
+				success: function(rtn){
+					$('#grid').datagrid('loadData',rtn);
+				}
+			});  */
+		});
+
+		//add new department
+		$('#editDlg').dialog({    
+		    title: 'department add',    
+		    width: 500,    
+		    height: 200,    
+		    closed: true,//the windown whether close status,if it is true,the window is close    
+		    //cache: false, //whether demand cache   
+		    //href: 'get_content.php',    
+		    modal: true   
+		}); 
+
+		//add button
+		$('#btnSave').bind('click',function(){
+			var formData=$('#editForm').serializeJSON();
+			$.ajax({
+				url: 'dep_'+method,
+				data: formData,
+				dataType: 'json',
+				type: 'post',
+				success: function(rtn){
+					$.messager.alert('note',rtn.message,'info',function(){
+						//if add success ,we close dialog windown,then reflush tabale data
+						$('#editDlg').dialog('close');
+						$('#grid').datagrid('reload');
+					});
+					
+					$('#grid').datagrid('loadData',rtn);
+				}
+			});
+		});
+
+		//cancel button
+		$('#btnCancel').bind('click',function(){
+			$('#editDlg').dialog('close');
+		});
+
+		
+	});
+
+	//operation del
+	function del(uuid){
+		$.messager.confirm('confirm','Are you sure you want to delete code is '+uuid+' the record?',function(yes){    
+		    if (yes){    
+		    	$.ajax({
+					url: 'dep_delete?id='+uuid,
+					dataType: 'json',
+					type: 'post',
+					success: function(){
+						$('#grid').datagrid('reload');
+					}
+				});   
+		    }    
+		}); 
+	};
+
+	//operation edit  update department information
+	function edit(uuid){
+		//pop-up window
+		$('#editDlg').dialog('open');
+
+		//load data
+		//first clear form data then load new data
+		$('#editForm').form('clear');
+		method="update";
+		
+		$('#editForm').form('load','dep_get?id='+uuid);	// 读取表单的URL
+
+	};
+	
+</script> -->
+</head>
+<body>
+	<div class="easyui-panel" style="padding-left: 4px;border-bottom: 0px;">
+		<div style="height: 2px;"></div>
+		<form id="searchForm">
+			<table>
+				<tr>
+					<td>id:</td>
+					<td><input type="text" name="t1.uuid" /></td>
+				</tr>
+				<tr>
+					<td>employee id:</td>
+					<td><input type="text" name="t1.empUuid" /></td>
+				</tr>
+				<tr>
+					<td>role id:</td>
+					<td><input type="text" name="t1.roleUuid" /></td>
+				</tr>
+			</table>
+
+			<button id="btn_search" type="button">search</button>
+		</form>
+		<div style="height: 2px;"></div>
+	</div>
+
+	<table id="grid"></table>
+	
+	<div id="editDlg">
+		<form id="editForm">
+			<input type="hidden" name="t.uuid">			
+			<table>
+				<tr>
+					<td>id:</td>
+					<td><input type="text" name="t.uuid" /></td>
+				</tr>
+				<tr>
+					<td>employee id:</td>
+					<td><input type="text" name="t.empUuid" /></td>
+				</tr>
+				<tr>
+					<td>role id:</td>
+					<td><input type="text" name="t.roleUuid" /></td>
+				</tr>
+			</table>
+			<button id="btnSave" type="button">save</button>
+			<button id="btnCancel" type="button">cancel</button>
+		</form>
+	</div>  
+
+	
+</body>
+</html>

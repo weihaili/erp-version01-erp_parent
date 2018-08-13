@@ -17,6 +17,8 @@ public interface IBaseBiz<T> {
 	
 	T get(Long uuid);
 	
+	T get(String uuid);
+	
 	void update(T t);
 
 }
