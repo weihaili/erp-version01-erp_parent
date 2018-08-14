@@ -72,5 +72,30 @@
 		<property name="orderDetailDao" ref="orderDetailDao"></property>
 	</bean>
 	
+	<!-- returnOrder -->
+	<bean id="returnOrderBiz" class="org.cn.kkl.erp.biz.impl.ReturnOrderBiz">
+		<property name="returnOrderDao" ref="returnOrderDao"></property>
+	</bean>
+	
+	<!-- returnOrderDetail -->
+	<bean id="returnOrderDetailBiz" class="org.cn.kkl.erp.biz.impl.ReturnOrderDetailBiz">
+		<property name="returnOrderDetailDao" ref="returnOrderDetailDao"></property>
+	</bean>
+	
+	<!-- storeDetail -->
+	<bean id="storeDetailBiz" class="org.cn.kkl.erp.biz.impl.StoreDetailBiz">
+		<property name="storeDetailDao" ref="storeDetailDao"></property>
+	</bean>
+	
+	<!-- storeOper -->
+	<bean id="storeOperBiz" class="org.cn.kkl.erp.biz.impl.StoreOperBiz">
+		<property name="storeOperDao" ref="storeOperDao"></property>
+	</bean>
+	
+	<!-- roleMenu -->
+	<bean id="roleMenuBiz" class="org.cn.kkl.erp.biz.impl.RoleMenuBiz">
+		<property name="roleMenuDao" ref="roleMenuDao"></property>
+	</bean>
+	
 </beans>
 	

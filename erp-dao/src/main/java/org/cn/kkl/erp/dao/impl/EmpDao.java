@@ -4,7 +4,6 @@ package org.cn.kkl.erp.dao.impl;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.crypto.hash.Md5Hash;
 import org.cn.kkl.erp.dao.IEmpDao;
 import org.cn.kkl.erp.entity.Emp;
 import org.hibernate.criterion.DetachedCriteria;

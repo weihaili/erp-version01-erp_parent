@@ -74,6 +74,31 @@
 	<bean id="orderDetailDao" class="org.cn.kkl.erp.dao.impl.OrderDetailDao">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	
+	<!-- returnOrder -->
+	<bean id="returnOrderDao" class="org.cn.kkl.erp.dao.impl.ReturnOrderDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- returnOrderDetail -->
+	<bean id="returnOrderDetailDao" class="org.cn.kkl.erp.dao.impl.ReturnOrderDetailDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- storeDetail -->
+	<bean id="storeDetailDao" class="org.cn.kkl.erp.dao.impl.StoreDetailDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- storeOper -->
+	<bean id="storeOperDao" class="org.cn.kkl.erp.dao.impl.StoreOperDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- roleMenu -->
+	<bean id="roleMenuDao" class="org.cn.kkl.erp.dao.impl.RoleMenuDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 
 	
 </beans>

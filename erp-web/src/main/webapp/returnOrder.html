@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>return order management</title>
+<link rel="stylesheet" type="text/css"
+	href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="ui/request.js"></script>
+<script type="text/javascript" src="ui/date.js"></script>
+<script type="text/javascript" src="js/crud.js"></script>
+<script type="text/javascript">
+	/* if(Request['type']==1){
+		document.title='supplier management';
+		listParam='?t1.type=1';
+		saveParam='?t.type=1';
+	}
+	if(Request['type']==2){
+		document.title='client management';
+		listParam='?t1.type=2';
+		saveParam='?t.type=2';
+	} */
+	var name='returnOrder';
+	var width=300;
+	var height=370;
+	var columns=[[    
+        {field:'uuid',title:'id',width:60,align:'center'},
+        {field:'createtime',title:'createTime',width:130,align:'center',formatter:function(value){
+			return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
+	    }},    
+        {field:'checktime',title:'checkTime',width:130,align:'center',formatter:function(value){
+			return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
+	    }},    
+        {field:'endtime',title:'endTime',width:130,align:'center',formatter:function(value){
+			return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
+	    }},    
+        {field:'type',title:'type',width:120,align:'center',formatter:function(value,row,index){
+			if(1==value*1){
+				return 'purchase';
+			}
+			if(2==value*1){
+				return 'sale';
+			}
+	    }},
+        {field:'creater',title:'creater',width:50,align:'center'}, 
+        {field:'checker',title:'checker',width:50,align:'center'},
+        {field:'ender',title:'ender',width:50,align:'center'},
+        {field:'supplieruuid',title:'supplier id',width:60,align:'center'},
+        {field:'totalmoney',title:'totalMoney',width:100,align:'center'},
+        {field:'state',title:'state',width:100,align:'center',formatter:function(value,row,index){
+			if(0==value*1){
+				return 'unreviewed';
+			}
+			if(1==value*1){
+				return 'reviewed';
+			}
+			if(2==value*1){
+				return 'confirmed';
+			}
+			if(3==value*1){
+				return 'warehousing';
+			}
+			if(8==value*1){
+				return 'not out of stock';
+			}
+			if(9==value*1){
+				return 'out of stock';
+			}
+	    }},
+        {field:'-',title:'operation',width:100,align:'center',
+        	formatter: function(value,row,index){
+	        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
+	        	oper+= ' <a href="javascript:void(0)" onclick="del('+row.uuid+');">delete</a>';
+				return oper;
+			}
+	    }    
+    ]]
+</script>
+
+</head>
+<body>
+	<div class="easyui-panel" style="padding-left: 4px;border-bottom: 0px;">
+		<div style="height: 2px;"></div>
+		<form id="searchForm">
+			<table>
+				<tr>
+					<td>id:</td>
+					<td><input type="text" name="t1.uuid" /></td>
+				</tr>
+				<tr>
+					<td>createTime:</td>
+					<td><input type="text" name="t1.createtime" class="easyui-datebox" editable="false" /> --> 
+						<input type="text" name="t2.createtime" class="easyui-datebox" editable="false" /></td>
+				</tr>
+				<tr>
+					<td>checkTime:</td>
+					<td><input type="text" name="t1.checktime" class="easyui-datetimebox" editable="false" /> --> 
+						<input type="text" name="t2.checktime" class="easyui-datetimebox" editable="false" /></td>
+				</tr>
+				<tr>
+					<td>endTime:</td>
+					<td><input type="text" name="t1.endtime" class="easyui-datebox" editable="false" /> --> 
+						<input type="text" name="t2.endtime" class="easyui-datebox" editable="false" /></td>
+				</tr>
+				<tr>
+					<td>type:</td>
+					<td>
+						<!-- <input type="radio" name="t1.gender" value=""/>all --> 
+						<input type="radio" name="t1.type" value="1"/>purchase
+						<input type="radio" name="t1.type" value="2" />warehousing
+					</td>
+				</tr>
+				<tr>
+					<td>creater:</td>
+					<td><input type="text" name="t1.creater" /></td>
+				</tr>
+				<tr>
+					<td>checker:</td>
+					<td><input type="text" name="t1.checker" /></td>
+				</tr>
+				<tr>
+					<td>ender:</td>
+					<td><input type="text" name="t1.ender" /></td>
+				</tr>
+				<tr>
+					<td>supplier id:</td>
+					<td><input type="text" name="t1.supplieruuid" /></td>
+				</tr>
+				<tr>
+					<td>totalMoney:</td>
+					<td><input type='text' name="t1.totalmoney" class="easyui-numberbox" data-options="min:0,precision:2,prefix:'￥'" />-->
+						<input type='text' name="t2.totalmoney" class="easyui-numberbox" data-options="min:0,precision:2,prefix:'￥'" />
+					</td>
+				</tr>
+				<tr>
+					<td>state:</td>
+					<td><select  class="easyui-combobox" name="t1.state" style="width: 175px;">
+							<option value="">--please choose state--</option>
+							<option value="0">unReviewed</option>
+							<option value="1">reviewed</option>
+							<option value="2">confirmed</option>
+							<option value="3">wareHousing</option>
+							<option value="8">not out of stock</option>
+							<option value="9">out of stock</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>wayBullsn :</td>
+					<td><input type="text" name="t1.waybullsn" /></td>
+				</tr>
+				<tr>
+					<td>ordersUuid :</td>
+					<td><input type="text" name="t1.ordersuuid" /></td>
+				</tr>
+			</table>
+
+			<button id="btn_search" type="button">search</button>
+		</form>
+		<div style="height: 2px;"></div>
+	</div>
+
+	<table id="grid"></table>
+	
+	<div id="editDlg">
+		<form id="editForm">
+			<input type="hidden" name="t.uuid">			
+			<table>
+				<tr>
+					<td>createTime:</td>
+					<td><input type="text" name="t.createtime" class="easyui-datetimebox" editable="false" /></td>
+				</tr>
+				<tr>
+					<td>checkTime:</td>
+					<td><input type="text" name="t.checktime" class="easyui-datetimebox" editable="false" /></td>
+				</tr>
+				<tr>
+					<td>endTime:</td>
+					<td><input type="text" name="t.endtime" class="easyui-datetimebox" editable="false" /></td>
+				</tr>
+				<tr>
+					<td>type:</td>
+					<td>
+						<!-- <input type="radio" name="t1.gender" value=""/>all --> 
+						<input type="radio" name="t.type" value="1"/>purchase
+						<input type="radio" name="t.state" value="2" />warehousing
+					</td>
+				</tr>
+				<tr>
+					<td>creater:</td>
+					<td><input type="text" name="t.creater" /></td>
+				</tr>
+				<tr>
+					<td>checker:</td>
+					<td><input type="text" name="t.checker" /></td>
+				</tr>
+				<tr>
+					<td>ender:</td>
+					<td><input type="text" name="t.ender" /></td>
+				</tr>
+				<tr>
+					<td>supplierId:</td>
+					<td><input type="text" name="t.supplieruuid" /></td>
+				</tr>
+				<tr>
+					<td>totalMoney:</td>
+					<td><input type="text" name="t.totalmoney" class="easyui-numberbox" data-options="min:0,precision:2,prefix:'￥'" /></td>
+				</tr>
+				<tr>
+					<td>state:</td>
+					<td>
+						<select class="easyui-combobox" name="t.state" style="width:175px;">
+							<option value="">--please choose state--</option>
+							<option value="0">unReviewed</option>
+							<option value="1">reviewed</option>
+							<option value="2">confirmed</option>
+							<option value="3">wareHousing</option>
+							<option value="8">not out of stock</option>
+							<option value="9">out of stock</option>
+							
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>wayBillsn:</td>
+					<td><input type="text" name="t.waybillsn" /></td>
+				</tr>
+				<tr>
+					<td>original orderId:</td>
+					<td><input type="text" name="t.ordersuuid" /></td>
+				</tr>
+			</table>
+			<button id="btnSave" type="button">save</button>
+			<button id="btnCancel" type="button">cancel</button>
+		</form>
+	</div>  
+
+	
+</body>
+</html>

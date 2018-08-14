@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>store operation management</title>
+<link rel="stylesheet" type="text/css"
+	href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="ui/date.js"></script>
+<script type="text/javascript" src="js/crud.js"></script>
+<script type="text/javascript">
+	var name='storeOper';
+	var width=300;
+	var height=220;
+	var columns=[[    
+			        {field:'uuid',title:'Id',width:60,align:'center'},    
+			        {field:'empuuid',title:'emploeyee id',width:90,align:'center'}, 
+			        {field:'opertime',title:'operationTime',width:130,align:'center',formatter:function(value){
+						return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
+				    }},   
+			        {field:'storeuuid',title:'store id',width:60,align:'center'},    
+			        {field:'goodsuuid',title:'goods id',width:60,align:'center'},    
+			        {field:'num',title:'quantity',width:60,align:'center'},
+			        {field:'type',title:'type',width:120,align:'center',formatter:function(value){
+						if(1==value*1){
+							return "wareHousing";
+						}
+						if(2==value*1){
+							return "out of stock";
+						}
+				    }},   
+			        {field:'-',title:'operation',width:100,align:'center',
+			        	formatter: function(value,row,index){
+				        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
+				        	oper+= ' <a href="javascript:void(0)" onclick="del('+row.uuid+');">delete</a>';
+							return oper;
+						}
+				    }    
+			    ]]
+</script>
+
+</head>
+<body>
+	<div class="easyui-panel" style="padding-left: 4px;border-bottom: 0px;">
+		<div style="height: 2px;"></div>
+		<form id="searchForm">
+			<table>
+				<tr>
+					<td>uuid:</td>
+					<td><input type="text" name="t1.uuid" /></td>
+				</tr>
+				<tr>
+					<td>empId:</td>
+					<td><input type="text" name="t1.empuuid" /></td>
+				</tr>
+				<tr>
+					<td>operation time:</td>
+					<td><input type="text" name="t1.opertime" class="easyui-datetimebox" editable="false"/>-->
+						<input type="text" name="t2.opertime" class="easyui-datetimebox" editable="false"/>
+					</td>
+				</tr>
+				<tr>
+					<td>storeId:</td>
+					<td><input type="text" name="t1.storeuuid" /></td>
+				</tr>
+				<tr>
+					<td>goodsId:</td>
+					<td><input type="text" name="t1.goodsuuid" /></td>
+				</tr>
+				<tr>
+					<td>quantity:</td>
+					<td><input type="text" name="t1.num" class="easyui-numberbox" data-options="min:0,precision:2" />-->
+						<input type="text" name="t2.num" class="easyui-numberbox" data-options="min:0,precision:2" />
+					</td>
+				</tr>
+				<tr>
+					<td>type:</td>
+					<td><input type="radio" name="t1.type" value=""/>all
+						<input type="radio" name="t1.type" value="1" />wareHousing
+						<input type="radio" name="t1.type" value="2"/>out of stock
+					</td>
+				</tr>
+				
+			</table>
+
+			<button id="btn_search" type="button">search</button>
+		</form>
+		<div style="height: 2px;"></div>
+	</div>
+
+	<table id="grid"></table>
+	
+	<div id="editDlg">
+		<form id="editForm">
+			<input type="hidden" name="t.uuid">			
+			<table>
+				<tr>
+					<td>empId:</td>
+					<td><input type="text" name="t.empuuid" /></td>
+				</tr>
+				<tr>
+					<td>operationTime:</td>
+					<td><input type="text" name="t.opertime" class="easyui-datetimebox" editable="false"/></td>
+				</tr>
+				<tr>
+					<td>storeId:</td>
+					<td><input type="text" name="t.storeuuid" /></td>
+				</tr>
+				<tr>
+					<td>goodsId:</td>
+					<td><input type="text" name="t.goodsuuid" /></td>
+				</tr>
+				<tr>
+					<td>quantity:</td>
+					<td><input type="text" name="t.num" class="easyui-numberbox" data-options="min:0,precision:2"/></td>
+				</tr>
+				<tr>
+					<td>type:</td>
+					<td><select name="t.type" class="easyui-combobox" style="width:175px;">
+							<option value="">--please choose type--</option>
+							<option value="1">wareHousing</option>
+							<option value="2">out of stock</option>
+						</select></td>
+				</tr>
+			</table>
+			<button id="btnSave" type="button">save</button>
+			<button id="btnCancel" type="button">cancel</button>
+		</form>
+	</div>  
+
+	
+</body>
+</html>

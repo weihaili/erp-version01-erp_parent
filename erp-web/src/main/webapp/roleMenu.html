@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-<title>store management</title>
+<title>role menu management</title>
 <link rel="stylesheet" type="text/css"
 	href="ui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
@@ -13,13 +13,13 @@
 <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="js/crud.js"></script>
 <script type="text/javascript">
-	var name='store';
+	var name='roleMenu';
+	var height=120;
 	var width=280;
-	var height=110;
 	var columns=[[    
 			        {field:'uuid',title:'Id',width:60,align:'center'},    
-			        {field:'name',title:'Name',width:120,align:'center'},    
-			        {field:'empuuid',title:'employee id',width:120,align:'center'},    
+			        {field:'roleuuid',title:'role id',width:120,align:'center'},    
+			        {field:'menuuuid',title:'menuId',width:90,align:'center'},
 			        {field:'-',title:'operation',width:100,align:'center',
 			        	formatter: function(value,row,index){
 				        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
@@ -37,16 +37,18 @@
 		<form id="searchForm">
 			<table>
 				<tr>
-					<td>uuid:</td>
+					<td>id:</td>
 					<td><input type="text" name="t1.uuid" /></td>
 				</tr>
 				<tr>
-					<td>name:</td>
-					<td><input type="text" name="t1.name" /></td>
+					<td>role id:</td>
+					<td><input type="text" name="t1.roleuuid" />
+					</td>
 				</tr>
 				<tr>
-					<td>empId:</td>
-					<td><input type="text" name="t1.empuuid" /></td>
+					<td>menu id:</td>
+					<td><input type="text" name="t1.menuuuid" /> 
+					</td>
 				</tr>
 			</table>
 
@@ -62,12 +64,12 @@
 			<input type="hidden" name="t.uuid">			
 			<table>
 				<tr>
-					<td>name:</td>
-					<td><input type="text" name="t.name" /></td>
+					<td>role id:</td>
+					<td><input type="text" name="t.roleuuid" /></td>
 				</tr>
 				<tr>
-					<td>empId:</td>
-					<td><input type="text" name="t.empuuid" /></td>
+					<td>menu id:</td>
+					<td><input type="text" name="t.menuuuid" /></td>
 				</tr>
 			</table>
 			<button id="btnSave" type="button">save</button>

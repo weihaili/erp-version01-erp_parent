@@ -29,6 +29,16 @@
     	<action name="supplier_*" class="supplierAction" method="{1}"></action>
     	
     	<action name="orderDetail_*" class="orderDetailAction" method="{1}"></action>
+    	
+    	<action name="returnOrder_*" class="returnOrderAction" method="{1}"></action>
+    	
+    	<action name="returnOrderDetail_*" class="returnOrderDetailAction" method="{1}"></action>
+    	
+    	<action name="storeDetail_*" class="storeDetailAction" method="{1}"></action>
+    	
+    	<action name="storeOper_*" class="storeOperAction" method="{1}"></action>
+    	
+    	<action name="roleMenu_*" class="roleMenuAction" method="{1}"></action>
     </package>
     
 </struts>

@@ -64,5 +64,25 @@
 		<property name="orderDetailBiz" ref="orderDetailBiz"></property>
 	</bean>
 	
+	<bean id="returnOrderAction" class="org.cn.kkl.erp.action.ReturnOrderAction" scope="prototype">
+		<property name="returnOrderBiz" ref="returnOrderBiz"></property>
+	</bean>
+	
+	<bean id="returnOrderDetailAction" class="org.cn.kkl.erp.action.ReturnOrderDetailAction" scope="prototype">
+		<property name="returnOrderDetailBiz" ref="returnOrderDetailBiz"></property>
+	</bean>
+	
+	<bean id="storeDetailAction" class="org.cn.kkl.erp.action.StoreDetailAction" scope="prototype">
+		<property name="storeDetailBiz" ref="storeDetailBiz"></property>
+	</bean>
+	
+	<bean id="storeOperAction" class="org.cn.kkl.erp.action.StoreOperAction" scope="prototype">
+		<property name="storeOperBiz" ref="storeOperBiz"></property>
+	</bean>
+	
+	<bean id="roleMenuAction" class="org.cn.kkl.erp.action.RoleMenuAction" scope="prototype">
+		<property name="roleMenuBiz" ref="roleMenuBiz"></property>
+	</bean>
+	
 </beans>
 	

@@ -13,12 +13,15 @@ public class StoreDao extends BaseDao<Store> implements IStoreDao {
 	public DetachedCriteria getDetachedCriteria(Store store1, Store store2, Object param) {
 		DetachedCriteria criteria=DetachedCriteria.forClass(Store.class);
 		if (null!=store1) {
+			if (null != store1.getUuid()) {
+				criteria.add(Restrictions.eq("uuid", store1.getUuid()));
+			}
 			if (StringUtils.isNotBlank(store1.getName())) {
 				criteria.add(Restrictions.like("name", store1.getName(), MatchMode.ANYWHERE));
 			}
-			/*if (null!=store1.getEmp() && null!=store1.getEmp().getUuid()) {
-				criteria.add(Restrictions.eq("emp", store1.getEmp()));
-			}*/
+			if (null!=store1.getEmpuuid()) {
+				criteria.add(Restrictions.eq("empuuid", store1.getEmpuuid()));
+			}
 		}
 		return criteria;
 	}

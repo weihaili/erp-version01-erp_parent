@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-<title>store management</title>
+<title>store detail management</title>
 <link rel="stylesheet" type="text/css"
 	href="ui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
@@ -13,13 +13,14 @@
 <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="js/crud.js"></script>
 <script type="text/javascript">
-	var name='store';
+	var name='storeDetail';
 	var width=280;
-	var height=110;
+	var height=140;
 	var columns=[[    
 			        {field:'uuid',title:'Id',width:60,align:'center'},    
-			        {field:'name',title:'Name',width:120,align:'center'},    
-			        {field:'empuuid',title:'employee id',width:120,align:'center'},    
+			        {field:'storeuuid',title:'store id',width:120,align:'center'},    
+			        {field:'goodsuuid',title:'goods id',width:120,align:'center'},    
+			        {field:'num',title:'quantity',width:120,align:'center'},    
 			        {field:'-',title:'operation',width:100,align:'center',
 			        	formatter: function(value,row,index){
 				        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
@@ -41,12 +42,18 @@
 					<td><input type="text" name="t1.uuid" /></td>
 				</tr>
 				<tr>
-					<td>name:</td>
-					<td><input type="text" name="t1.name" /></td>
+					<td>store id:</td>
+					<td><input type="text" name="t1.storeuuid" /></td>
 				</tr>
 				<tr>
-					<td>empId:</td>
-					<td><input type="text" name="t1.empuuid" /></td>
+					<td>goods id:</td>
+					<td><input type="text" name="t1.goodsuuid" /></td>
+				</tr>
+				<tr>
+					<td>quantity:</td>
+					<td><input type="text" name="t1.num" class="easyui-numberbox" data-options="min:0,precision:2" />-->
+						<input type="text" name="t2.num" class="easyui-numberbox" data-options="min:0,precision:2" />
+					</td>
 				</tr>
 			</table>
 
@@ -62,12 +69,16 @@
 			<input type="hidden" name="t.uuid">			
 			<table>
 				<tr>
-					<td>name:</td>
-					<td><input type="text" name="t.name" /></td>
+					<td>store id:</td>
+					<td><input type="text" name="t.storeuuid" /></td>
 				</tr>
 				<tr>
-					<td>empId:</td>
-					<td><input type="text" name="t.empuuid" /></td>
+					<td>goods id:</td>
+					<td><input type="text" name="t.goodsuuid" /></td>
+				</tr>
+				<tr>
+					<td>quantity:</td>
+					<td><input type="text" name="t.num" class="easyui-numberbox" data-options="min:0,precision:2" /></td>
 				</tr>
 			</table>
 			<button id="btnSave" type="button">save</button>
