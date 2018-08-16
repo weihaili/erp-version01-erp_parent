@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>order management</title>
+<link rel="stylesheet" type="text/css"
+	href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="js/crud.js"></script>
+<script type="text/javascript" src="ui/date.js"></script>
+<script type="text/javascript">
+	var name='order';
+	var height=400;
+	var width=320;
+	var columns=[[    
+			        {field:'uuid',title:'Id',width:30,align:'center'},
+			        {field:'createTime',title:'create time',width:125,align:'center',formatter:function(value){
+						return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
+				    }},
+				    {field:'checkTime',title:'check time',width:125,align:'center',formatter:function(value){
+						return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
+				    }},
+				    {field:'startTime',title:'start time',width:125,align:'center',formatter:function(value){
+						return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
+				    }},
+				    {field:'endTime',title:'end time',width:125,align:'center',formatter:function(value){
+						return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
+				    }},
+				    {field:'type',title:'type',width:60,align:'center',formatter:function(value,row,index){
+						if(1==value*1) return 'purchase';
+						if(2==value*1) return 'sale';
+				    }},    
+			        {field:'creater',title:'creater',width:30,align:'center'},    
+			        {field:'checker',title:'checker',width:30,align:'center'},
+			        {field:'starter',title:'starter',width:30,align:'center'},    
+			        {field:'ender',title:'ender',width:30,align:'center'},    
+			        {field:'supplierUuid',title:'supplierId',width:30,align:'center'},    
+			        {field:'totalMoney',title:'total moeny',width:50,align:'center'},    
+			        {field:'state',title:'state',width:120,align:'center',formatter:function(value,row,index){
+						if(0==value*1) return 'unReviewed';
+						if(1==value*1) return 'checked';
+						if(2==value*1) return 'confirmed';
+						if(3==value*1) return 'wareHousing';
+						if(8==value*1) return 'Not out of stock';
+						if(9==value*1) return 'out of stock';
+				    }},    
+			        {field:'wayBillsn',title:'wayBillNo',width:90,align:'center'},
+			        {field:'-',title:'operation',width:100,align:'center',
+			        	formatter: function(value,row,index){
+				        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
+				        	oper+= ' <a href="javascript:void(0)" onclick="del('+row.uuid+');">delete</a>';
+							return oper;
+						}
+				    }    
+			    ]];
+</script>
+</head>
+<body>
+	<div class="easyui-panel" style="padding-left: 4px;border-bottom: 0px;">
+		<div style="height: 2px;"></div>
+		<form id="searchForm">
+			<table>
+				<tr>
+					<td>order id:</td>
+					<td><input type="text" name="t1.uuid" /></td>
+				</tr>
+				<tr>
+					<td>create time:</td>
+					<td>
+						<input type="text" name="t1.createTime" class="easyui-datebox" editable="false"/> -->
+						<input type="text" name="t2.createTime" class="easyui-datebox" editable="false"/>
+					</td>
+				</tr>
+				<tr>
+					<td>check time:</td>
+					<td>
+						<input type="text" name="t1.checkTime" class="easyui-datebox" editable="false"/> -->
+						<input type="text" name="t2.checkTime" class="easyui-datebox" editable="false"/>
+					</td>
+				</tr>
+				<tr>
+					<td>start time:</td>
+					<td>
+						<input type="text" name="t1.startTime" class="easyui-datebox" editable="false"/> -->
+						<input type="text" name="t2.startTime" class="easyui-datebox" editable="false"/>
+					</td>
+				</tr>
+				<tr>
+					<td>end time:</td>
+					<td>
+						<input type="text" name="t1.endTime" class="easyui-datebox" editable="false"/> -->
+						<input type="text" name="t2.endTime" class="easyui-datebox" editable="false"/>
+					</td>
+				</tr>
+				<tr>
+					<td>type:</td>
+					<td>
+						<!-- <input type="radio" name="t1.gender" value=""/>all -->
+						<input type="radio" name="t1.type" value="1"/>purchase
+						<input type="radio" name="t1.type" value="2"/>sale
+					</td>
+				</tr>
+				<tr>
+					<td>creater:</td>
+					<td><input type="text" name="t1.creater" /></td>
+				</tr>
+				<tr>
+					<td>checker:</td>
+					<td><input type="text" name="t1.checker" /></td>
+				</tr>
+				<tr>
+					<td>starter:</td>
+					<td><input type="text" name="t1.starter" /></td>
+				</tr>
+				<tr>
+					<td>ender:</td>
+					<td><input type="text" name="t1.ender" /></td>
+				</tr>
+				<tr>
+					<td>supplierId:</td>
+					<td><input type="text" name="t1.supplierUuid" /></td>
+				</tr>
+				<tr>
+					<td>total money:</td>
+					<td><input type="text" name="t.totalMoney" class="easyui-numberbox" data-options="min:0,precision:2,prefix:'￥'" /></td>
+				</tr>
+				<tr>
+					<td>depuuid:</td>
+					<td><input type="text" name="t1.state" class="easyui-combobox" data-options="
+						url:'order_list',
+						valueField:'state',
+						textField:''
+					"/></td>
+				</tr>
+				<tr>
+					<td>way bill number:</td>
+					<td><input type="text" name="t1.wayBillsn" /></td>
+				</tr>
+			</table>
+
+			<button id="btn_search" type="button">search</button>
+		</form>
+		<div style="height: 2px;"></div>
+	</div>
+
+	<table id="grid"></table>
+	
+	<div id="editDlg">
+		<form id="editForm">
+			<input type="hidden" name="t.uuid">			
+			<table>
+				<tr>
+					<td>create time:</td>
+					<td>
+						<input type="text" name="t1.createTime" class="easyui-datebox" editable="false"/> 
+					</td>
+				</tr>
+				<tr>
+					<td>check time:</td>
+					<td>
+						<input type="text" name="t1.checkTime" class="easyui-datebox" editable="false"/> 
+					</td>
+				</tr>
+				<tr>
+					<td>start time:</td>
+					<td>
+						<input type="text" name="t1.startTime" class="easyui-datebox" editable="false"/> 
+					</td>
+				</tr>
+				<tr>
+					<td>end time:</td>
+					<td>
+						<input type="text" name="t1.endTime" class="easyui-datebox" editable="false"/>
+					</td>
+				</tr>
+				<tr>
+					<td>type:</td>
+					<td>
+						<!-- <input type="radio" name="t1.gender" value=""/>all -->
+						<input type="radio" name="t1.type" value="1"/>purchase
+						<input type="radio" name="t1.type" value="2"/>sale
+					</td>
+				</tr>
+				<tr>
+					<td>creater:</td>
+					<td><input type="text" name="t1.creater" /></td>
+				</tr>
+				<tr>
+					<td>checker:</td>
+					<td><input type="text" name="t1.checker" /></td>
+				</tr>
+				<tr>
+					<td>starter:</td>
+					<td><input type="text" name="t1.starter" /></td>
+				</tr>
+				<tr>
+					<td>ender:</td>
+					<td><input type="text" name="t1.ender" /></td>
+				</tr>
+				<tr>
+					<td>supplierId:</td>
+					<td><input type="text" name="t1.supplierUuid" /></td>
+				</tr>
+				<tr>
+					<td>total money:</td>
+					<td><input type="text" name="t.totalMoney" class="easyui-numberbox" data-options="min:0,precision:2,prefix:'￥'" /></td>
+				</tr>
+				<tr>
+					<td>depuuid:</td>
+					<td><input type="text" name="t1.state" class="easyui-combobox" data-options="
+						url:'order_list',
+						valueField:'state',
+						textField:''
+					"/></td>
+				</tr>
+				<tr>
+					<td>way bill number:</td>
+					<td><input type="text" name="t1.wayBillsn" /></td>
+				</tr>
+			</table>
+			<button id="btnSave" type="button">save</button>
+			<button id="btnCancel" type="button">cancel</button>
+		</form>
+	</div>  
+
+	
+</body>
+</html>

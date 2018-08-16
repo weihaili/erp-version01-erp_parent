@@ -3,6 +3,8 @@ package org.cn.kkl.erp.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class OrderDetail implements Serializable {
 
 	/**
@@ -10,17 +12,32 @@ public class OrderDetail implements Serializable {
 	 */
 	private static final long serialVersionUID = -630843104464285072L;
 	
-	  private Long uuid;
-	  private Long goodsuuid;
-	  private String goodsname;
-	  private Double price;
-	  private Double num;
-	  private Double money;
-	  private Date endtime;
-	  private Long ender;
-	  private Long storeuuid;
-	  private char state;         //'采购：0=未入库，1=已入库  销售：0=未出库，1=已出库',
-	  private Long ordersuuid;
+	/********************************order state constant start*************************************/
+	public static final char STATE_NOT_IN='0';  //not in stock
+	public static final char STATE_IN='1';  //in stock
+	/********************************order state end*************************************/
+
+	private Long uuid;
+	private Long goodsuuid;
+	private String goodsname;
+	private Double price;
+	private Double num;
+	private Double money;
+	private Date endtime;
+	private Long ender;
+	private Long storeuuid;
+	private char state; // '采购：0=未入库，1=已入库 销售：0=未出库，1=已出库',
+	
+	//if there is not configuration lead to stackOverFlowError
+	@JSONField(serialize=false)
+	private Order order; // order
+	  
+	public Order getOrder() {
+		return order;
+	}
+	public void setOrder(Order order) {
+		this.order = order;
+	}
 	public Long getUuid() {
 		return uuid;
 	}
@@ -80,12 +97,6 @@ public class OrderDetail implements Serializable {
 	}
 	public void setState(char state) {
 		this.state = state;
-	}
-	public Long getOrdersuuid() {
-		return ordersuuid;
-	}
-	public void setOrdersuuid(Long ordersuuid) {
-		this.ordersuuid = ordersuuid;
 	}
 
 }

@@ -19,6 +19,12 @@
 		<property name="totalMoney" />
 		<property name="state" />
 		<property name="wayBillsn" />
+		
+		<!-- cascade update and foreign key give orderDetail control -->
+		<bag name="orderDetails" cascade="save-update" inverse="true">
+			<key column="ordersuuid"></key>
+			<one-to-many class="org.cn.kkl.erp.entity.OrderDetail"/>
+		</bag>
 	</class>
 
 </hibernate-mapping>

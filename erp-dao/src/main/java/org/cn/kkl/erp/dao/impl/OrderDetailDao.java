@@ -43,8 +43,8 @@ public class OrderDetailDao extends BaseDao<OrderDetail> implements IOrderDetail
 			if (StringUtils.isNotBlank(String.valueOf(orderDetail1.getState()).trim())) {
 				criteria.add(Restrictions.eq("state", orderDetail1.getState()));
 			}
-			if (null!=orderDetail1.getOrdersuuid()) {
-				criteria.add(Restrictions.eq("ordersuuid", orderDetail1.getOrdersuuid()));
+			if (null!=orderDetail1.getOrder() && null !=orderDetail1.getOrder().getUuid()) {
+				criteria.add(Restrictions.eq("order", orderDetail1.getOrder()));
 			}
 		}
 		if (null!=orderDetail2) {

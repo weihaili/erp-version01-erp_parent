@@ -10,6 +10,11 @@ public class StoreOper implements Serializable {
 	 */
 	private static final long serialVersionUID = -1190660325215047146L;
 	
+	public static final char TYPE_IN_STORE='1';  //inStore
+	
+	public static final char TYPE_OUT_STORE='2';  // outStore
+	
+	
 	  private Long uuid;              //'编号'
 	  private Long empuuid;              //'操作员工编号'
 	  private Date opertime;              //'操作日期'

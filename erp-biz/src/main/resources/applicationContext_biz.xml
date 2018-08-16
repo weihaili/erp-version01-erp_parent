@@ -60,6 +60,8 @@
 	<!-- order -->
 	<bean id="orderBiz" class="org.cn.kkl.erp.biz.impl.OrderBiz">
 		<property name="orderDao" ref="orderDao"></property>
+		<property name="empDao" ref="empDao"></property>
+		<property name="supplierDao" ref="supplierDao"></property>
 	</bean>
 	
 	<!-- supplier -->
@@ -70,6 +72,8 @@
 	<!-- orderDetail -->
 	<bean id="orderDetailBiz" class="org.cn.kkl.erp.biz.impl.OrderDetailBiz">
 		<property name="orderDetailDao" ref="orderDetailDao"></property>
+		<property name="storeDetailDao" ref="storeDetailDao"></property>
+		<property name="storeOperDao" ref="storeOperDao"></property>
 	</bean>
 	
 	<!-- returnOrder -->

@@ -2,6 +2,7 @@ package org.cn.kkl.erp.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Order implements Serializable {
 
@@ -10,6 +11,18 @@ public class Order implements Serializable {
 	 */
 	private static final long serialVersionUID = -3075189372193294889L;
 	
+	/********************************order state constant start*************************************/
+	public static final char STATE_CREATE='0';  //unCheck
+	public static final char STATE_CHECKED='1';  //checked
+	public static final char STATE_START='2';    //confirmed
+	public static final char STATE_END='3';      //wareHousing
+	/********************************order state end*************************************/
+	
+	/********************************order type constant start**************************************/
+	public static final char TYPE_IN='1';  //purchase
+	public static final char TYPE_OUT='2'; //sale
+	/********************************order type end**************************************/
+	
 	private Long uuid;
 	private Date createTime;
 	private Date checkTime;
@@ -17,15 +30,59 @@ public class Order implements Serializable {
 	private Date endTime;
 	private char type;//1 represent purchase, 2 represent sale
 	private Long creater;
+	private String createrName;//orderorName
 	private Long checker;
+	private String checkerName;
 	private Long starter;
+	private String starterName;//buyer name
 	private Long ender;
+	private String enderName;//librarian name
 	private Long supplierUuid;
+	private String supplierName;//supplier name or client name
 	private Double totalMoney;
+	public String getCreaterName() {
+		return createrName;
+	}
+	public void setCreaterName(String createrName) {
+		this.createrName = createrName;
+	}
+	public String getCheckerName() {
+		return checkerName;
+	}
+	public void setCheckerName(String checkerName) {
+		this.checkerName = checkerName;
+	}
+	public String getStarterName() {
+		return starterName;
+	}
+	public void setStarterName(String starterName) {
+		this.starterName = starterName;
+	}
+	public String getEnderName() {
+		return enderName;
+	}
+	public void setEnderName(String enderName) {
+		this.enderName = enderName;
+	}
+	public String getSupplierName() {
+		return supplierName;
+	}
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
+	}
 	//purchase state 0 represent unReviewed(unCheck) 1.represent reviewed 2. represent confirmed 3 represent wareHousing
 	//sale state  a: represent not out of stock b.out of stock
 	private char state;
 	private Long wayBillsn;
+	
+	private List<OrderDetail> orderDetails;   //order detail
+	
+	public List<OrderDetail> getOrderDetails() {
+		return orderDetails;
+	}
+	public void setOrderDetails(List<OrderDetail> orderDetails) {
+		this.orderDetails = orderDetails;
+	}
 	public Long getUuid() {
 		return uuid;
 	}
