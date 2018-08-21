@@ -69,8 +69,16 @@ public class OrderDetailBiz extends BaseBiz<OrderDetail> implements IOrderDetail
 		storeDetail.setGoodsuuid(orderDetail.getGoodsuuid());
 		List<StoreDetail> storeList = storeDetailDao.getList(storeDetail, null, null);
 		if (null!=storeList && storeList.size()>0) {
+			Double newQuantity=0d;
+			Double existQuantity=0d;
 			StoreDetail existGoods = storeList.get(0);
-			existGoods.setNum(existGoods.getNum()+orderDetail.getNum());
+			if (null!=orderDetail.getNum()) {
+				newQuantity=orderDetail.getNum();
+			}
+			if (null!=existGoods.getNum()) {
+				existQuantity=existGoods.getNum();
+			}
+			existGoods.setNum(existQuantity+newQuantity);
 		}else{
 			storeDetail.setNum(orderDetail.getNum());
 			storeDetailDao.add(storeDetail);
@@ -97,6 +105,85 @@ public class OrderDetailBiz extends BaseBiz<OrderDetail> implements IOrderDetail
 			order.setEndTime(date);
 			order.setState(Order.STATE_END);
 		}
+	}
+
+	/**
+	 * outStorage operation
+	 * @param orderId
+	 * @param empUuid
+	 * @param warehouseId
+	 * @description 
+	 *  operate table orderDetail
+	 *     1. judgment sale order detail weather achieve out storage
+	 *     2. update the sale order detail state out of state(1) out of storage date operator storageId
+	 *     
+	 *  operate table storeDetail
+	 *     1.  pick out storeDetail by storeUuid
+	 *     2.  judgment if the quantity of storage is enough.if enough then out of storage ,decrease the quantity set new quantity 
+	 *     	   of this kind of goods.if not enough, throw new ErpException message is inventory shortage
+	 *  
+	 *   operate table storeOper
+	 *         insert new operation record
+	 *   
+	 *   operate table oder
+	 *   
+	 */        
+	@Override
+	public void doOutStore(Long orderId, Long empUuid, Long warehouseId) {
+		OrderDetail detail = orderDetailDao.get(orderId);
+		if (OrderDetail.STATE_NOT_OUT!=detail.getState()) {
+			throw new ErpException("dear the sale order detail already out of storage,can not operate repeatly");
+		}
+		Date date = new Date();
+		detail.setState(OrderDetail.STATE_OUT);
+		detail.setEnder(empUuid);
+		detail.setEndtime(date);
+		detail.setStoreuuid(warehouseId);
+		
+		/**********storeDetail******************************/
+		Double saleQuantity=0d;
+		if (null!=detail.getNum()) {
+			saleQuantity=detail.getNum();
+		}
+		Double storageQuantity=0d;
+		
+		StoreDetail storeDetail = new StoreDetail();
+		storeDetail.setGoodsuuid(detail.getGoodsuuid());
+		storeDetail.setStoreuuid(warehouseId);
+		List<StoreDetail> storeDetails  = storeDetailDao.getList(storeDetail, null, null);
+		if (null!=storeDetails && storeDetails.size()>0) {
+			storageQuantity=storeDetails.get(0).getNum();
+			StoreDetail sd = storeDetails.get(0);
+			Double newStorageQuantity=storageQuantity-saleQuantity;
+			if (newStorageQuantity<0) {
+				throw new ErpException("dear inventory stortage");
+			}
+			sd.setNum(newStorageQuantity);
+		}else{
+			throw new ErpException("dear inventory shortage");
+		}
+		
+		StoreOper log = new StoreOper();
+		log.setEmpuuid(empUuid);
+		log.setGoodsuuid(detail.getGoodsuuid());
+		log.setNum(detail.getNum());
+		log.setOpertime(date);
+		log.setStoreuuid(warehouseId);
+		log.setType(StoreOper.TYPE_OUT_STORE);
+		storeOperDao.add(log);
+		
+		
+		OrderDetail orderDetail = new OrderDetail();
+		Order order = detail.getOrder();
+		orderDetail.setOrder(order);
+		orderDetail.setState(OrderDetail.STATE_NOT_OUT);
+		Long totalRecords = orderDetailDao.getTotalRecords(orderDetail, null, null);
+		if (0==totalRecords) {
+			order.setEndTime(date);
+			order.setState(Order.STATE_OUT);
+			order.setEnder(empUuid);
+		}
+		
 	}
 	
 

@@ -1,5 +1,7 @@
 package org.cn.kkl.erp.dao.impl;
 
+import java.util.Calendar;
+
 import org.apache.commons.lang3.StringUtils;
 import org.cn.kkl.erp.dao.IStoreOperDao;
 import org.cn.kkl.erp.entity.StoreOper;
@@ -19,7 +21,13 @@ public class StoreOperDao extends BaseDao<StoreOper> implements IStoreOperDao {
 				criteria.add(Restrictions.eq("empuuid", storeOper1.getEmpuuid()));
 			}
 			if (null!=storeOper1.getOpertime()) {
-				criteria.add(Restrictions.ge("opertime", storeOper1.getOpertime()));
+				Calendar calendar =Calendar.getInstance();
+				calendar.setTime(storeOper1.getOpertime());
+				calendar.set(Calendar.HOUR, 0);
+				calendar.set(Calendar.MINUTE, 0);
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.MILLISECOND, 0);
+				criteria.add(Restrictions.ge("opertime", calendar.getTime()));
 			}
 			if (null!=storeOper1.getStoreuuid()) {
 				criteria.add(Restrictions.eq("storeuuid", storeOper1.getStoreuuid()));
@@ -36,7 +44,13 @@ public class StoreOperDao extends BaseDao<StoreOper> implements IStoreOperDao {
 		}
 		if (null!=storeOper2) {
 			if (null!=storeOper2.getOpertime()) {
-				criteria.add(Restrictions.le("opertime", storeOper2.getOpertime()));
+				Calendar calendar =Calendar.getInstance();
+				calendar.setTime(storeOper2.getOpertime());
+				calendar.set(Calendar.HOUR, 23);
+				calendar.set(Calendar.MINUTE, 59);
+				calendar.set(Calendar.SECOND, 59);
+				calendar.set(Calendar.MILLISECOND, 999);
+				criteria.add(Restrictions.le("opertime", calendar.getTime()));
 			}
 			if (null!=storeOper2.getNum()) {
 				criteria.add(Restrictions.le("num", storeOper2.getNum()));

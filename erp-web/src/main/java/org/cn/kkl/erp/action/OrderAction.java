@@ -106,5 +106,21 @@ public class OrderAction extends BaseAction<Order> {
 		}
 	}
 	
+	/**
+	 * my purchase orders
+	 */
+	public void myListByPage(){
+		if(null==getT1()){
+			setT1(new Order());
+		}
+		Emp loginUser = getLoginUser();
+		if (null==loginUser) {
+			ajaxReturn(false, "dear please login first");
+			return ;
+		}
+		getT1().setCreater(loginUser.getUuid());
+		super.listByCondition();
+	}
+	
 	
 }

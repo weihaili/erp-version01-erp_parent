@@ -21,6 +21,9 @@ public class Order implements Serializable {
 	/********************************order type constant start**************************************/
 	public static final char TYPE_IN='1';  //purchase
 	public static final char TYPE_OUT='2'; //sale
+	
+	public static final char STATE_NOT_OUT='0';    //confirmed
+	public static final char STATE_OUT='1';      //wareHousing
 	/********************************order type end**************************************/
 	
 	private Long uuid;

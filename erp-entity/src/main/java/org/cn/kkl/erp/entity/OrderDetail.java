@@ -12,9 +12,14 @@ public class OrderDetail implements Serializable {
 	 */
 	private static final long serialVersionUID = -630843104464285072L;
 	
-	/********************************order state constant start*************************************/
+	/********************************purchase order state constant start*************************************/
 	public static final char STATE_NOT_IN='0';  //not in stock
 	public static final char STATE_IN='1';  //in stock
+	/********************************order state end*************************************/
+	
+	/********************************sale order state constant start*************************************/
+	public static final char STATE_NOT_OUT='0';  //not out of stock
+	public static final char STATE_OUT='1';  //out of stock
 	/********************************order state end*************************************/
 
 	private Long uuid;

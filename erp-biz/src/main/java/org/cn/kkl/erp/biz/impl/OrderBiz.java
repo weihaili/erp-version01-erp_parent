@@ -38,7 +38,7 @@ public class OrderBiz extends BaseBiz<Order> implements IOrderBiz {
 	@Override
 	public void add(Order order) {
 		Date date = new Date();
-		order.setType(Order.TYPE_IN);
+		//order.setType(Order.TYPE_IN);
 		order.setState(Order.STATE_CREATE);
 		order.setCreateTime(date);
 		
@@ -67,11 +67,11 @@ public class OrderBiz extends BaseBiz<Order> implements IOrderBiz {
 		Map<Long, String> cacheEmpMap=new HashMap<>();//employee cache map
 		Map<Long, String> cacheSCMap=new HashMap<>();//supplier and client cache map
 		for (Order order : orderList) {
-			order.setCreaterName(getEmpName(order.getCreater(), cacheEmpMap));
-			order.setCheckerName(getEmpName(order.getChecker(), cacheEmpMap));
-			order.setEnderName(getEmpName(order.getEnder(), cacheEmpMap));
-			order.setStarterName(getEmpName(order.getStarter(), cacheEmpMap));
-			order.setSupplierName(getSCName(order.getSupplierUuid(), cacheSCMap));
+			order.setCreaterName(getEmpName(order.getCreater(), cacheEmpMap,empDao));
+			order.setCheckerName(getEmpName(order.getChecker(), cacheEmpMap,empDao));
+			order.setEnderName(getEmpName(order.getEnder(), cacheEmpMap,empDao));
+			order.setStarterName(getEmpName(order.getStarter(), cacheEmpMap,empDao));
+			order.setSupplierName(getSupplierOrClentName(order.getSupplierUuid(), cacheSCMap,supplierDao));
 		}
 		return orderList;
 	}
@@ -118,7 +118,7 @@ public class OrderBiz extends BaseBiz<Order> implements IOrderBiz {
 	 * @param cacheMap :cache map
 	 * @return people name
 	 */
-	private String getEmpName(Long uuid,Map<Long, String> cacheMap){
+	/*private String getEmpName(Long uuid,Map<Long, String> cacheMap){
 		if (null==uuid) {
 			return null;
 		}
@@ -130,7 +130,7 @@ public class OrderBiz extends BaseBiz<Order> implements IOrderBiz {
 			cacheMap.put(uuid, name);
 		}
 		return name;
-	}
+	}*/
 	
 	/**
 	 * get supplier  client name
@@ -138,7 +138,7 @@ public class OrderBiz extends BaseBiz<Order> implements IOrderBiz {
 	 * @param cacheMap :cache map
 	 * @return people name
 	 */
-	private String getSCName(Long uuid,Map<Long, String> cacheMap){
+	/*private String getSCName(Long uuid,Map<Long, String> cacheMap){
 		if (null==uuid) {
 			return null;
 		}
@@ -150,7 +150,7 @@ public class OrderBiz extends BaseBiz<Order> implements IOrderBiz {
 			cacheMap.put(uuid, name);
 		}
 		return name;
-	}
+	}*/
 	
 	
 	

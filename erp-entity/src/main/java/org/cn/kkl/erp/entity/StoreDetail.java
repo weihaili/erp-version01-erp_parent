@@ -11,8 +11,22 @@ public class StoreDetail implements Serializable {
 	
 	  private Long uuid;         //'编号'
 	  private Long storeuuid;        //'仓库编号'
+	  private String storename;
 	  private Long goodsuuid;         //'商品编号'
-	  private Double num;         //'数量'
+	  private String goodsname;
+	  public String getStorename() {
+		return storename;
+	}
+	public void setStorename(String storename) {
+		this.storename = storename;
+	}
+	public String getGoodsname() {
+		return goodsname;
+	}
+	public void setGoodsname(String goodsname) {
+		this.goodsname = goodsname;
+	}
+	private Double num;         //'数量'
 	public Long getUuid() {
 		return uuid;
 	}

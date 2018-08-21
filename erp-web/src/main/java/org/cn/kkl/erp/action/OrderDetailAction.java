@@ -51,4 +51,30 @@ public class OrderDetailAction extends BaseAction<OrderDetail> {
 		}
 	}
 	
+	/**
+	 * sale order out of wareHousing
+	 */
+	public void doOutStore(){
+		Emp loginUser = getLoginUser();
+		if (null==loginUser) {
+			ajaxReturn(false, "dear please login first");
+			return ;
+		}
+		Long orderId = getId();
+		if (null==orderId) {
+			ajaxReturn(false, "dear no data submitted,please check");
+			return ;
+		}
+		try {
+			orderDetailBiz.doOutStore(orderId, loginUser.getUuid(),storeuuid);
+			ajaxReturn(true, "check pass,keep it up");
+		}catch (ErpException e) {
+			ajaxReturn(false, "order has been out of wareHoused please do not operation repeat");
+			e.printStackTrace();
+		} catch (Exception e) {
+			ajaxReturn(false, "system busy,please try again later");
+			e.printStackTrace();
+		}
+	}
+	
 }

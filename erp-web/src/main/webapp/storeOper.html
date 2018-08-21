@@ -12,37 +12,7 @@
 <script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
 <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="ui/date.js"></script>
-<script type="text/javascript" src="js/crud.js"></script>
-<script type="text/javascript">
-	var name='storeOper';
-	var width=300;
-	var height=220;
-	var columns=[[    
-			        {field:'uuid',title:'Id',width:60,align:'center'},    
-			        {field:'empuuid',title:'emploeyee id',width:90,align:'center'}, 
-			        {field:'opertime',title:'operationTime',width:130,align:'center',formatter:function(value){
-						return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
-				    }},   
-			        {field:'storeuuid',title:'store id',width:60,align:'center'},    
-			        {field:'goodsuuid',title:'goods id',width:60,align:'center'},    
-			        {field:'num',title:'quantity',width:60,align:'center'},
-			        {field:'type',title:'type',width:120,align:'center',formatter:function(value){
-						if(1==value*1){
-							return "wareHousing";
-						}
-						if(2==value*1){
-							return "out of stock";
-						}
-				    }},   
-			        {field:'-',title:'operation',width:100,align:'center',
-			        	formatter: function(value,row,index){
-				        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
-				        	oper+= ' <a href="javascript:void(0)" onclick="del('+row.uuid+');">delete</a>';
-							return oper;
-						}
-				    }    
-			    ]]
-</script>
+<script type="text/javascript" src="js/storeoper.js"></script>
 
 </head>
 <body>
@@ -51,12 +21,16 @@
 		<form id="searchForm">
 			<table>
 				<tr>
-					<td>uuid:</td>
+					<td>operation id:</td>
 					<td><input type="text" name="t1.uuid" /></td>
 				</tr>
 				<tr>
-					<td>empId:</td>
-					<td><input type="text" name="t1.empuuid" /></td>
+					<td>employee:</td>
+					<td><input type="text" name="t1.empuuid" class="easyui-combobox" data-options="
+						url:'emp_list',
+						valueField:'uuid',
+						textField:'name'
+					"/></td>
 				</tr>
 				<tr>
 					<td>operation time:</td>
@@ -65,12 +39,20 @@
 					</td>
 				</tr>
 				<tr>
-					<td>storeId:</td>
-					<td><input type="text" name="t1.storeuuid" /></td>
+					<td>warehouse:</td>
+					<td><input type="text" name="t1.storeuuid" class="easyui-combobox" data-options="
+						url:'store_list',
+						valueField:'uuid',
+						textField:'name'
+					"/></td>
 				</tr>
 				<tr>
 					<td>goodsId:</td>
-					<td><input type="text" name="t1.goodsuuid" /></td>
+					<td><input type="text" name="t1.goodsuuid" class="easyui-combobox" data-options="
+						url:'goods_list',
+						valueField:'uuid',
+						textField:'name'
+					"/></td>
 				</tr>
 				<tr>
 					<td>quantity:</td>
@@ -78,11 +60,22 @@
 						<input type="text" name="t2.num" class="easyui-numberbox" data-options="min:0,precision:2" />
 					</td>
 				</tr>
-				<tr>
+				<!-- <tr>
 					<td>type:</td>
 					<td><input type="radio" name="t1.type" value=""/>all
 						<input type="radio" name="t1.type" value="1" />wareHousing
 						<input type="radio" name="t1.type" value="2"/>out of stock
+					</td>
+				</tr> -->
+				<tr>
+					<td>type:</td>
+					<td>
+						<!-- <select name="t1.type" class="easyui-combobox" style="width:175px;">
+							<option value="">all</option>
+							<option value="1">inStall</option>
+							<option value="2">outStall</option>
+						</select> -->
+						<input name="t1.type" class="easyui-combobox" data-options="data:[{uuid:'',name:'all'},{uuid:'1',name:'inStore'},{uuid:'2',name:'outStore'}],valueField:'uuid',textField:'name'"/>
 					</td>
 				</tr>
 				

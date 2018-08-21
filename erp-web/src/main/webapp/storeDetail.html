@@ -5,32 +5,16 @@
 <title>store detail management</title>
 <link rel="stylesheet" type="text/css"
 	href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="css/table.css">
 <link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
 <script type="text/javascript" src="ui/jquery.min.js"></script>
 <script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
 <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript" src="js/crud.js"></script>
-<script type="text/javascript">
-	var name='storeDetail';
-	var width=280;
-	var height=140;
-	var columns=[[    
-			        {field:'uuid',title:'Id',width:60,align:'center'},    
-			        {field:'storeuuid',title:'store id',width:120,align:'center'},    
-			        {field:'goodsuuid',title:'goods id',width:120,align:'center'},    
-			        {field:'num',title:'quantity',width:120,align:'center'},    
-			        {field:'-',title:'operation',width:100,align:'center',
-			        	formatter: function(value,row,index){
-				        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
-				        	oper+= ' <a href="javascript:void(0)" onclick="del('+row.uuid+');">delete</a>';
-							return oper;
-						}
-				    }    
-			    ]]
-</script>
-
+<script type="text/javascript" src="ui/date.js"></script>
+<script type="text/javascript" src="ui/request.js"></script>
+<script type="text/javascript" src="js/storedetail.js"></script>
 </head>
 <body>
 	<div class="easyui-panel" style="padding-left: 4px;border-bottom: 0px;">
@@ -38,22 +22,20 @@
 		<form id="searchForm">
 			<table>
 				<tr>
-					<td>uuid:</td>
-					<td><input type="text" name="t1.uuid" /></td>
+					<td>warehouse:</td>
+					<td><input type="text" name="t1.storeuuid" class="easyui-combobox" data-options="
+						url:'store_list',
+						valueField:'uuid',
+						textField:'name'
+					" /></td>
 				</tr>
 				<tr>
-					<td>store id:</td>
-					<td><input type="text" name="t1.storeuuid" /></td>
-				</tr>
-				<tr>
-					<td>goods id:</td>
-					<td><input type="text" name="t1.goodsuuid" /></td>
-				</tr>
-				<tr>
-					<td>quantity:</td>
-					<td><input type="text" name="t1.num" class="easyui-numberbox" data-options="min:0,precision:2" />-->
-						<input type="text" name="t2.num" class="easyui-numberbox" data-options="min:0,precision:2" />
-					</td>
+					<td>goods:</td>
+					<td><input type="text" name="t1.goodsuuid" class="easyui-combobox" data-options="
+						url:'goods_list',
+						valueField:'uuid',
+						textField:'name'
+					"/></td>
 				</tr>
 			</table>
 
@@ -64,7 +46,7 @@
 
 	<table id="grid"></table>
 	
-	<div id="editDlg">
+	<!-- <div id="editDlg">
 		<form id="editForm">
 			<input type="hidden" name="t.uuid">			
 			<table>
@@ -84,8 +66,19 @@
 			<button id="btnSave" type="button">save</button>
 			<button id="btnCancel" type="button">cancel</button>
 		</form>
-	</div>  
+	</div>   -->
 
+	<div id="inventoryChangeRecord" class="easyui-dialog" style="padding: 4px;">
+		<table class="hovertable">
+			<tr>
+				<td width="20%" class="bg noBorderBottom">goods name</td>
+				<td width="30%" id="goodsname" class="noBorderBottom"></td>
+				<td width="20%" class="bg noBorderBottom" >warehouse</td>
+				<td width="30%" id="warehouse" class="noBorderBottom"></td>
+			</tr>
+		</table>
+		<table id="inventoryOperationDetail" class="easyui-datagrid" pagination="true"></table>
+	</div>
 	
 </body>
 </html>
