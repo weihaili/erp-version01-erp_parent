@@ -91,7 +91,9 @@
 		<property name="storeDetailDao" ref="storeDetailDao"></property>
 		<property name="storeDao" ref="storeDao"></property>
 		<property name="goodsDao" ref="goodsDao"></property>
+		<property name="mailUtil" ref="mailUtil"></property>
 	</bean>
+	
 	
 	<!-- storeOper -->
 	<bean id="storeOperBiz" class="org.cn.kkl.erp.biz.impl.StoreOperBiz">
@@ -104,6 +106,11 @@
 	<!-- roleMenu -->
 	<bean id="roleMenuBiz" class="org.cn.kkl.erp.biz.impl.RoleMenuBiz">
 		<property name="roleMenuDao" ref="roleMenuDao"></property>
+	</bean>
+	
+	<!-- report -->
+	<bean id="reportBiz" class="org.cn.kkl.erp.biz.impl.ReportBiz">
+		<property name="reportDao" ref="reportDao"></property>
 	</bean>
 	
 </beans>

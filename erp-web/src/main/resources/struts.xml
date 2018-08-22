@@ -39,6 +39,8 @@
     	<action name="storeOper_*" class="storeOperAction" method="{1}"></action>
     	
     	<action name="roleMenu_*" class="roleMenuAction" method="{1}"></action>
+    	
+    	<action name="report_*" class="reportAction" method="{1}"></action>
     </package>
     
 </struts>

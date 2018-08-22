@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="mailJob" class="org.cn.kkl.erp.util.MailJob">
+		<property name="storeDetailBiz" ref="storeDetailBiz"></property>
+	</bean>
+	
+	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="mailJob"></property>
+		<property name="targetMethod" ref="sendStorealertMail"></property>
+	</bean>
+	
+	<bean id="mailTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="jobDetail"></property>
+		<property name="cronExpression" value="0 0/10 * * * ?"></property>
+	</bean>
+	
+	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="mailTrigger"/>
+			</list>
+		</property>
+	</bean>
+
+</beans>  

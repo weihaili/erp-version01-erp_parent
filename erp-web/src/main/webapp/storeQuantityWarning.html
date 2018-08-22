@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>store quantity warning</title>
+<title>department management</title>
+<link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="js/storeQuantityWarning.js"></script>
+</head>
+<body>
+<form id="searchForm">
+	warning quantity limit : <input id="quantity" name="quantity" class="easyui-combobox" data-options="
+		url:'json/storeLimitNum.json',valueField:'quantity',textField:'quantity'
+	"/>
+	<button type="button" id="searchBtn"> search </button>
+</form>
+
+<div style="padding: 4px;"></div>
+
+<table id="grid"></table>
+</body>
+</html>

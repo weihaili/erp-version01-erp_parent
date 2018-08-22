@@ -99,6 +99,11 @@
 	<bean id="roleMenuDao" class="org.cn.kkl.erp.dao.impl.RoleMenuDao">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	
+	<!-- report -->
+	<bean id="reportDao" class="org.cn.kkl.erp.dao.impl.ReportDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 
 	
 </beans>

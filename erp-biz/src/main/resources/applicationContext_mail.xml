@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<!-- smtp:send mail protocol -->
+		<property name="protocol" value="smtp"></property>
+		
+		<!-- mail server address -->
+		<property name="host" value="smtp.zoho.com.cn"></property>
+		<!-- mail server port -->
+		<property name="port" value="465"></property>
+		
+		<!-- mail userName ,must match the sender -->
+		<property name="username" value="fadali@zoho.com.cn"></property>
+		<!-- mail box password -->
+		<property name="password" value="bB123456"></property>
+		<property name="javaMailProperties">
+			<props>
+				<!-- open certification,verify that the sender is the user of mailbox -->
+				<prop key="mail.smtp.auth">true</prop>
+				<!-- use ssl safe mode -->
+				<prop key="mail.smtp.ssl.enable">true</prop>
+			</props>
+		</property>
+		
+	</bean>
+	
+	<bean id="mailUtil" class="org.cn.kkl.erp.util.MailUtil">
+		<property name="javaMailSender" ref="javaMailSender"></property>
+		<property name="from" value="fadali@zoho.com.cn"></property>
+	</bean>
+	
+	<bean id="htmlUtil" class="org.cn.kkl.erp.util.HtmlUtil"></bean>
+
+</beans>

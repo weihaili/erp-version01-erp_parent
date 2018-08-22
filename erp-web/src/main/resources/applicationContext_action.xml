@@ -84,5 +84,9 @@
 		<property name="roleMenuBiz" ref="roleMenuBiz"></property>
 	</bean>
 	
+	<bean id="reportAction" class="org.cn.kkl.erp.action.ReportAction" scope="prototype">
+		<property name="reportBiz" ref="reportBiz"></property>
+	</bean>
+	
 </beans>
 	

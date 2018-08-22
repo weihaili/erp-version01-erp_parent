@@ -1,7 +1,10 @@
 package org.cn.kkl.erp.dao.impl;
 
+import java.util.List;
+
 import org.cn.kkl.erp.dao.IStoreDetailDao;
 import org.cn.kkl.erp.entity.StoreDetail;
+import org.cn.kkl.erp.entity.StoreQuantityWarning;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 
@@ -31,6 +34,20 @@ public class StoreDetailDao extends BaseDao<StoreDetail> implements IStoreDetail
 		}
 		
 		return criteria;
+	}
+
+	/**
+	 * inventory warning
+	 * @return
+	 */
+	@Override
+	public List<StoreQuantityWarning> getStorealertList(Double quantity) {
+		Double limit=0d;
+		if (null!=quantity) {
+			limit=quantity;
+		}
+		String hql="from StoreQuantityWarning where (storenum-?)<= outnum ";
+		return (List<StoreQuantityWarning>) getHibernateTemplate().find(hql,limit);
 	}
 	
 	

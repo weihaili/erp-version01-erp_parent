@@ -20,6 +20,8 @@
 		<hibernate.version>5.0.7.Final</hibernate.version>
 		<mysql.version>5.1.32</mysql.version>
 		<shiro.version>1.2.3</shiro.version>
+		<main.version>1.5.5</main.version>
+		<quartz.version>2.2.3</quartz.version>
 	</properties>
 
 	<dependencies>
@@ -168,6 +170,19 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.8</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>${main.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>${quartz.version}</version>
+		</dependency>
+
 	</dependencies>
 	<!-- 版本锁定 -->
 	<dependencyManagement>
