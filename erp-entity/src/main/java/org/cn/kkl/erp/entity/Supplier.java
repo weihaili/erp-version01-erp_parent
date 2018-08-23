@@ -9,6 +9,9 @@ public class Supplier implements Serializable {
 	 */
 	private static final long serialVersionUID = -5334211185427170896L;
 	
+	public static final char TYPE_SUPPLIER='1';
+	public static final char TYPE_CLIENT='2';
+	
 	private Long   uuid;
 	private String name;
 	private String address;  

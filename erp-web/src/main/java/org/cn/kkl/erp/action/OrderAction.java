@@ -1,11 +1,16 @@
 package org.cn.kkl.erp.action;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
 import org.cn.kkl.erp.biz.IOrderBiz;
 import org.cn.kkl.erp.entity.Emp;
 import org.cn.kkl.erp.entity.Order;
 import org.cn.kkl.erp.entity.OrderDetail;
+import org.cn.kkl.erp.entity.Supplier;
 import org.cn.kkl.erp.selfdifexception.ErpException;
 
 import com.alibaba.fastjson.JSON;
@@ -122,5 +127,27 @@ public class OrderAction extends BaseAction<Order> {
 		super.listByCondition();
 	}
 	
+	public void export(){
+		String filename="order_";
+		/*if (Order.TYPE_IN==getT1().getType()) {
+			filename="purchase_";
+		}
+		if (Order.TYPE_OUT==getT1().getType()) {
+			filename="sales_";
+		}*/
+		filename +=getId()+".xls";
+		HttpServletResponse response = ServletActionContext.getResponse();
+		try {
+			response.setHeader("Content-Disposition", "attachment;filename="+ new String(filename.getBytes(),"ISO-8859-1"));
+			orderBiz.exportById(response.getOutputStream(), getId());
+			//ajaxReturn(true, "export successful");
+		} catch (IOException e) {
+			//ajaxReturn(false, "export fail");
+			e.printStackTrace();
+		} catch (Exception e) {
+			//ajaxReturn(false, "export fail");
+			e.printStackTrace();
+		}
+	}
 	
 }

@@ -11,7 +11,7 @@
 	
 	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="mailJob"></property>
-		<property name="targetMethod" ref="sendStorealertMail"></property>
+		<property name="targetMethod" value="sendStorealertMail"></property>
 	</bean>
 	
 	<bean id="mailTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">

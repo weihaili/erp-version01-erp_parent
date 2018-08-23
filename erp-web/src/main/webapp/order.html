@@ -12,6 +12,7 @@
 <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="ui/date.js"></script>
 <script type="text/javascript" src="ui/request.js"></script>
+<script type="text/javascript" src="ui/download.js"></script>
 <script type="text/javascript" src="js/order.js"></script>
 <script type="text/javascript" src="js/orders_purchase_add.js"></script>
 </head>
@@ -88,11 +89,12 @@
 </div>
 
 <!-- add new purchase order dialog -->
-<div id="addOrderDlg" class="easyui-dialog" style='padding: 2px;'>
+<div id="addOrderDlg" class="easyui-dialog" style="padding: 4px;">
 	<form id="orderForm">
-		<span id="addOrdersSupplier"></span> :
+		<div style="padding: 4px;"></div>
+		<span id="addOrdersSupplier"></span>
 		<input name="t.supplieruuid" id="supplier"/>
-		<div style="padding: 2px;"></div>
+		<div style="padding: 4px;"></div>
 	</form>
 	<table id="ordersgrid"></table>
 </div>

@@ -10,13 +10,16 @@
 		<property name="protocol" value="smtp"></property>
 		
 		<!-- mail server address -->
+		<!-- <property name="host" value="smtp.qq.com"></property> -->
 		<property name="host" value="smtp.zoho.com.cn"></property>
 		<!-- mail server port -->
 		<property name="port" value="465"></property>
 		
 		<!-- mail userName ,must match the sender -->
+		<!-- <property name="username" value="qq"></property> -->
 		<property name="username" value="fadali@zoho.com.cn"></property>
 		<!-- mail box password -->
+		<!-- <property name="password" value="qq authorization code"></property> -->
 		<property name="password" value="bB123456"></property>
 		<property name="javaMailProperties">
 			<props>

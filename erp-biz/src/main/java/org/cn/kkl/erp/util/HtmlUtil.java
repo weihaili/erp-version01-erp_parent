@@ -22,14 +22,7 @@ public class HtmlUtil {
 			}
 		}
 		sb.append( "</tr> " );
-		sb.append( "<tr> ");
-		/*if (null!=titles && contents.size()>0) {
-			for (int i = 0; i < contents.size(); i++) {
-				sb.append( "  <td>"+contents.get(i)+"</td> " );
-			}
-		}*/
 		sb.append(content);
-		sb.append( "</tr> ");
 		sb.append( "</table> " );
 		sb.append( "</body> " );
 		sb.append( "</html> " );

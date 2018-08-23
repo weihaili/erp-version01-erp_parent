@@ -10,15 +10,24 @@ $(function(){
 	    pagePosition: 'both',
 	    pagination: true ,
 	    //tool bar
-	    toolbar: [{
-		    text: 'add',
-			iconCls: 'icon-add',
-			handler: function(){
-				method="add";
-				$('#editDlg').dialog('open');
-				$('#editForm').form('clear');
+	    toolbar: [
+	        {
+			    text: 'add',
+				iconCls: 'icon-add',
+				handler: function(){
+					method="add";
+					$('#editDlg').dialog('open');
+					$('#editForm').form('clear');
+				}
+			},'-',{
+				text:'download',
+				iconCls: 'icon-excel',
+				handler:function(){
+					var _formdata=$('#searchForm').serializeJSON();
+					$.download(name+'_export'+listParam,_formdata);
+				}
 			}
-		}]
+		]
 	}); 
 
 	// query list by condition

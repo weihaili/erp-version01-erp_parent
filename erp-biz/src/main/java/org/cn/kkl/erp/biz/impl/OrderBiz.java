@@ -1,10 +1,19 @@
 package org.cn.kkl.erp.biz.impl;
 
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.cn.kkl.erp.biz.IOrderBiz;
 import org.cn.kkl.erp.dao.IEmpDao;
 import org.cn.kkl.erp.dao.IOrderDao;
@@ -110,6 +119,157 @@ public class OrderBiz extends BaseBiz<Order> implements IOrderBiz {
 		order.setStarter(empUuid);
 		order.setStartTime(new Date());
 		order.setState(Order.STATE_START);
+	}
+	
+	/**export order detail by style excel
+	 * @param os
+	 * @param uuid
+	 */
+	public void exportById(OutputStream os,Long uuid) throws Exception{
+		if (null==uuid) {
+			return ;
+		}
+		Order order = orderDao.get(uuid);
+		
+		HSSFWorkbook book = new HSSFWorkbook();
+		HSSFSheet sheet = book.createSheet("purchase order");
+
+		HSSFCellStyle cellStyle = book.createCellStyle();
+		cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+		cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+		cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+		cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+		
+		//content vertical center and align center
+		cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+		cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		
+		//set content font
+		HSSFFont font = book.createFont();
+		font.setFontName("SimSun");
+		font.setFontHeightInPoints((short) 11);
+		cellStyle.setFont(font);
+		
+		//title style
+		HSSFCellStyle titleStyle = book.createCellStyle();
+		titleStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		titleStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+		HSSFFont titleFont = book.createFont();
+		titleFont.setFontName("boldface");
+		titleFont.setBold(true);
+		titleFont.setFontHeightInPoints((short) 18);
+		titleStyle.setFont(titleFont);
+		
+		//set date format
+		HSSFCellStyle dateStyle = book.createCellStyle();
+		dateStyle.cloneStyleFrom(cellStyle);
+		HSSFDataFormat dataFormat = book.createDataFormat();
+		dateStyle.setDataFormat(dataFormat.getFormat("yyyy-MM-dd HH:mm:ss"));
+		
+		
+		// the first four columns of the first row are merged
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 3));
+
+		// second columns to fourth columns of third row are merged
+		sheet.addMergedRegion(new CellRangeAddress(2, 2, 1, 3));
+
+		// first column to fourth column of eighth row are merged
+		sheet.addMergedRegion(new CellRangeAddress(7, 7, 0, 3));
+		
+		int rowCnt=10 + order.getOrderDetails().size();
+		for (int i = 2; i < rowCnt; i++) {
+			HSSFRow row = sheet.createRow(i);
+			for (int j = 0; j < 4; j++) {
+				HSSFCell cell = row.createCell(j);
+				cell.setCellStyle(cellStyle);
+			}
+		}
+		
+		sheet.createRow(0).createCell(0).setCellValue("purchase order");
+		sheet.getRow(0).getCell(0).setCellStyle(titleStyle);
+		
+		sheet.getRow(2).getCell(0).setCellValue("supplier");
+
+		sheet.getRow(3).getCell(0).setCellValue("order date");
+		sheet.getRow(3).getCell(2).setCellValue("manager");
+
+		sheet.getRow(4).getCell(0).setCellValue("check date");
+		sheet.getRow(4).getCell(2).setCellValue("manager");
+
+		sheet.getRow(5).getCell(0).setCellValue("purchase date");
+		sheet.getRow(5).getCell(2).setCellValue("manager");
+
+		sheet.getRow(6).getCell(0).setCellValue("inStore date");
+		sheet.getRow(6).getCell(2).setCellValue("manager");
+
+		sheet.getRow(7).getCell(0).setCellValue("order detail");
+
+		sheet.getRow(8).getCell(0).setCellValue("goods name");
+		sheet.getRow(8).getCell(1).setCellValue("quantity");
+		sheet.getRow(8).getCell(2).setCellValue("price");
+		sheet.getRow(8).getCell(3).setCellValue("amount");
+		
+		sheet.getRow(0).setHeight((short) 1000);
+		for (int i = 2; i < rowCnt; i++) {
+			sheet.getRow(i).setHeight((short) 500);
+		}
+		for (int i = 0; i < 4; i++) {
+			sheet.setColumnWidth(i, 7000);
+		}
+		
+		for (int i = 3; i < 7; i++) {
+			sheet.getRow(i).getCell(1).setCellStyle(dateStyle);
+		}
+		
+		//set supplier value
+		sheet.getRow(2).getCell(1).setCellValue(supplierDao.get(order.getSupplierUuid()).getName());
+		//set create time
+		if (null!=order.getCreateTime()) {
+			sheet.getRow(3).getCell(1).setCellValue(order.getCreateTime());
+		}
+		//set check time
+		if (null!=order.getCheckTime()) {
+			sheet.getRow(4).getCell(1).setCellValue(order.getCheckTime());
+		}
+		//set confirm time
+		if (null!=order.getStartTime()) {
+			sheet.getRow(5).getCell(1).setCellValue(order.getStartTime());
+		}
+		//set inStore time
+		if (null!=order.getEndTime()) {
+			sheet.getRow(6).getCell(1).setCellValue(order.getEndTime());
+		}
+		
+		//set manager
+		if (null!=order.getCreater()) {
+			sheet.getRow(3).getCell(3).setCellValue(empDao.get(order.getCreater()).getName());
+		}
+		if (null!=order.getChecker()) {
+			sheet.getRow(4).getCell(3).setCellValue(empDao.get(order.getChecker()).getName());
+		}
+		if (null!=order.getStarter()) {
+			sheet.getRow(5).getCell(3).setCellValue(empDao.get(order.getStarter()).getName());
+		}
+		if (null!=order.getEnder()) {
+			sheet.getRow(6).getCell(3).setCellValue(empDao.get(order.getEnder()).getName());
+		}
+		
+		//set order detail
+		int rowIndex=9;
+		HSSFRow row =null;
+		for (OrderDetail detail : order.getOrderDetails()) {
+			row = sheet.getRow(rowIndex);
+			row.getCell(0).setCellValue(detail.getGoodsname());
+			row.getCell(1).setCellValue(detail.getNum());
+			row.getCell(2).setCellValue(detail.getPrice());
+			row.getCell(3).setCellValue(detail.getMoney());
+			rowIndex++;
+		}
+		sheet.getRow(rowIndex).getCell(0).setCellValue("total money");
+		sheet.getRow(rowIndex).getCell(3).setCellValue(order.getTotalMoney());
+		
+		book.write(os);
+		book.close();
 	}
 
 	/**

@@ -9,7 +9,6 @@ import javax.mail.MessagingException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.cn.kkl.erp.biz.IStoreDetailBiz;
-import org.cn.kkl.erp.dao.IBaseDao;
 import org.cn.kkl.erp.dao.IGoodsDao;
 import org.cn.kkl.erp.dao.IStoreDao;
 import org.cn.kkl.erp.dao.IStoreDetailDao;
@@ -135,13 +134,17 @@ public class StoreDetailBiz extends BaseBiz<StoreDetail> implements IStoreDetail
 			titles.add("outnum");
 			StringBuilder content=new StringBuilder();
 			for (StoreQuantityWarning storeQuantityWarning : storealertList) {
+				content.append( "<tr> ");
+				
 				content.append("<td>"+storeQuantityWarning.getUuid()+"</td>");
 				content.append("<td>"+storeQuantityWarning.getName()+"</td>");
 				content.append("<td>"+storeQuantityWarning.getStorenum()+"</td>");
 				content.append("<td>"+storeQuantityWarning.getOutnum()+"</td>");
+				content.append( "</tr> ");
 			}
-			StringBuilder builder = htmlUtil.getStoreAlertHtml("store quantity warning",titles,content.toString());
-			mailUtil.sendMail("kukulongGG@hotmail.com", "store quantity warning", builder.toString());
+			String contentValue=content.toString();
+			String builderValue = htmlUtil.getStoreAlertHtml("store quantity warning",titles,contentValue).toString();
+			mailUtil.sendMail("kukulongGG@hotmail.com", "store quantity warning", builderValue);
 		}
 	}
 	

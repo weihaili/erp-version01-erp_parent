@@ -10,7 +10,7 @@ $(function(){
 			document.title='my purchase order';
 			btnText='purchase requisition';
 			
-			$('#addOrdersSupplier').html('supplier');
+			$('#addOrdersSupplier').html('supplier :');
 			
 		}
 		if(Request['type']*1==2){
@@ -140,6 +140,10 @@ $(function(){
 				   handler:function(){
 					   $('#ordersDlg').dialog('close'); 
 				   }
+			   },'-',{
+				   text:'export',
+				   iconCls:'icon-excel',
+				   handler:doExport
 			   }
 			]
 		});
@@ -183,8 +187,8 @@ $(function(){
 	
 	$('#addOrderDlg').dialog({
 		title:inOutTitle,
-		width:1000,
-		height:618,
+		width:900,
+		height:500,
 		modal:true,
 		closed:true
 	});
@@ -461,4 +465,8 @@ function getColumns(){
 	        {field:'wayBillsn',title:'wayBillNo',width:90,align:'center'}
 		]];
 	}
+}
+
+function doExport(){
+	$.download('order_export',{"id":$('#uuid').html()});
 }
