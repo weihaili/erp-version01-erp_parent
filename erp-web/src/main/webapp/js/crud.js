@@ -26,6 +26,12 @@ $(function(){
 					var _formdata=$('#searchForm').serializeJSON();
 					$.download(name+'_export'+listParam,_formdata);
 				}
+			},'-',{
+				text:'import',
+				iconCls: 'icon-save',
+				handler:function(){
+					$('#importDlg').dialog('open');
+				}
 			}
 		]
 	}); 
@@ -82,6 +88,46 @@ $(function(){
 	$('#btnCancel').bind('click', function() {
 		$('#editDlg').dialog('close');
 	});
+	
+	var importForm=document.getElementById('importForm');
+	if(importForm){
+		$('#importDlg').dialog({
+			title:'import data',
+			height:200,
+			width:400,
+			closed:true,
+			modal:true,
+			buttons:[
+			  {
+				  text:'import',
+				  handler:function(){
+					  $.ajax({
+						  url:name+'_doImport',
+						  type:'post',
+						  data:new FormData($('#importForm')[0]),
+						  dataType:'json',
+						  processData:false,
+						  contentType:false,
+						  success:function(_data){
+							  $.messager.alert('system prompt message',_data.message,'info',function(){
+								  if(_data.success){
+									  $('#importDlg').dialog('close');
+									  $('#importForm').form('clear');
+									  $('#grid').datagrid('reload');
+								  }
+							  });
+						  }
+					  });
+				  }
+			  } ,{
+				  text:'close',
+				  handler:function(){
+					  $('#importDlg').dialog('close');
+				  }
+			  }      
+			]
+		});
+	}
 
 });
 

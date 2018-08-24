@@ -1,5 +1,8 @@
 package org.cn.kkl.erp.action;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -58,6 +61,55 @@ public class SupplierAction extends BaseAction<Supplier> {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private File file;
+	private String fileFileName;
+	private String fileContentType;
+	
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
+	public String getFileFileName() {
+		return fileFileName;
+	}
+
+	public void setFileFileName(String fileFileName) {
+		this.fileFileName = fileFileName;
+	}
+
+	public String getFileContentType() {
+		return fileContentType;
+	}
+
+	public void setFileContentType(String fileContentType) {
+		this.fileContentType = fileContentType;
+	}
+
+	/**
+	 * supplier upload
+	 */
+	public void doImport(){
+		if (!"application/vnd.ms-excel".equalsIgnoreCase(fileContentType)) {
+			ajaxReturn(false, "upload file must be excel and the expansion name must be .xls");
+			return;
+		}
+		try {
+			supplierBiz.doImport(new FileInputStream(file));
+			ajaxReturn(true, "file upload success");
+		} catch (FileNotFoundException e) {
+			ajaxReturn(false, "file upload fail");
+			e.printStackTrace();
+		} catch (Exception e) {
+			ajaxReturn(false,e.getMessage());
 			e.printStackTrace();
 		}
 		

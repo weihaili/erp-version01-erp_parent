@@ -35,6 +35,11 @@ public class SupplierDao extends BaseDao<Supplier> implements ISupplierDao {
 				criteria.add(Restrictions.eq("type", supplier1.getType()));
 			}
 		}
+		if (null!=supplier2) {
+			if (null!=supplier2.getName()) {
+				criteria.add(Restrictions.eq("name", supplier2.getName()));
+			}
+		}
 		return criteria;
 	}
 	

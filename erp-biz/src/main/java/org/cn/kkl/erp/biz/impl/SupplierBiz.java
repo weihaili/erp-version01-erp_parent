@@ -1,18 +1,21 @@
 package org.cn.kkl.erp.biz.impl;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.time.temporal.TemporalQueries;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.cn.kkl.erp.biz.ISupplierBiz;
 import org.cn.kkl.erp.dao.ISupplierDao;
 import org.cn.kkl.erp.entity.Supplier;
+import org.cn.kkl.erp.selfdifexception.ErpException;
 
 public class SupplierBiz extends BaseBiz<Supplier> implements ISupplierBiz {
 
@@ -47,7 +50,7 @@ public class SupplierBiz extends BaseBiz<Supplier> implements ISupplierBiz {
 
 		//Field[] fields = t1.getClass().getDeclaredFields();
 		String[] headerNames = {"name","address","contact people","telephone","email"};
-		int[] columsWidths={4,8,2,3,8};
+		int[] columsWidths={6,8,6,5,7};
 		/*for (int i = 0; i < fields.length; i++) {
 			headerNames[i] = fields[i].getName();
 		}*/
@@ -82,7 +85,54 @@ public class SupplierBiz extends BaseBiz<Supplier> implements ISupplierBiz {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
+	/**
+	 * supplier information import by *.xls style file
+	 * @param is
+	 * @throws Exception
+	 */
+	public void doImport(InputStream is) throws IOException{
+		HSSFWorkbook book=null;
+		try {
+			book = new HSSFWorkbook(is);
+			HSSFSheet sheet = book.getSheetAt(0);
+			char type=' ';
+			if ("supplier".equalsIgnoreCase(sheet.getSheetName())) {
+				type=Supplier.TYPE_SUPPLIER;
+			}else if ("client".equalsIgnoreCase(sheet.getSheetName())) {
+				type=Supplier.TYPE_CLIENT;
+			}else {
+				throw new ErpException("excel sheet name is incorrect");
+			}
+			 
+			int lastRowIndex = sheet.getLastRowNum();
+			Supplier supplier = null;
+			for (int i = 1; i <= lastRowIndex; i++) {
+				supplier=new Supplier();
+				//{"name","address","contact people","telephone","email"};
+				supplier.setName(sheet.getRow(i).getCell(0).getStringCellValue());
+				//judgment if there is in database by supplier name
+				List<Supplier> list = supplierDao.getList(null, supplier, null);
+				if (null!=list && list.size()>0) {
+					supplier=list.get(0);
+				}
+				supplier.setAddress(sheet.getRow(i).getCell(1).getStringCellValue());
+				supplier.setContact(sheet.getRow(i).getCell(2).getStringCellValue());
+				supplier.setTele(sheet.getRow(i).getCell(3).getStringCellValue());
+				supplier.setEmail(sheet.getRow(i).getCell(4).getStringCellValue());
+				if (null==list || list.size()==0) {
+					supplier.setType(type);
+					supplierDao.add(supplier);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (null!=book) {
+				book.close();
+			}
+		}
+		
+	}
 }
