@@ -11,6 +11,7 @@
 		<module>erp-dao</module>
 		<module>erp-biz</module>
 		<module>erp-web</module>
+		<module>erp-wl-client</module>
 	</modules>
 
 	<!-- 定义版本常量 -->
@@ -23,6 +24,7 @@
 		<main.version>1.5.5</main.version>
 		<quartz.version>2.2.3</quartz.version>
 		<poi.version>3.11</poi.version>
+		<cxf.version>3.0.10</cxf.version>
 	</properties>
 
 	<dependencies>
@@ -190,6 +192,20 @@
 			<artifactId>poi</artifactId>
 			<version>${poi.version}</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-frontend-jaxws -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-transports-http -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		
 	</dependencies>
 	<!-- 版本锁定 -->
 	<dependencyManagement>

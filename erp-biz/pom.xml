@@ -13,5 +13,10 @@
 			<artifactId>erp-dao</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>org.cn.kkl</groupId>
+			<artifactId>erp-wl-client</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>
