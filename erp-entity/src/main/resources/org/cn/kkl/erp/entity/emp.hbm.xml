@@ -15,5 +15,11 @@
 		<property name="address" />
 		<property name="birthday" />
 		<many-to-one name="dep" class="org.cn.kkl.erp.entity.Dep" column="depuuid"></many-to-one>
+		
+		<!-- many to many emp_role -->
+		<bag name="roles" order-by="roleUuid" table="emp_role">
+			<key column="empUuid"></key>
+			<many-to-many class="org.cn.kkl.erp.entity.Role" column="roleUuid"></many-to-many>
+		</bag>
 	</class>
 </hibernate-mapping>

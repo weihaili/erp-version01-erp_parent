@@ -2,6 +2,7 @@ package org.cn.kkl.erp.entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
@@ -23,6 +24,8 @@ public class Emp implements Serializable {
 	private String address;
 	private Date birthday;
 	private Dep dep;
+	@JSONField(serialize=false)
+	private List<Role> roles;
 	
 	public Dep getDep() {
 		return dep;
@@ -83,6 +86,12 @@ public class Emp implements Serializable {
 	}
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
+	}
+	public List<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 	
 

@@ -2,6 +2,9 @@ package org.cn.kkl.erp.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import com.alibaba.fastjson.annotation.JSONField;
 
 public class Role implements Serializable {
 
@@ -14,6 +17,10 @@ public class Role implements Serializable {
 	private String name;
 	private Date createTime;
 	private Date updateTime;
+	
+	@JSONField(serialize=false)
+	private List<Menu> menus;
+	
 	public Long getUuid() {
 		return uuid;
 	}
@@ -37,6 +44,12 @@ public class Role implements Serializable {
 	}
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+	public List<Menu> getMenus() {
+		return menus;
+	}
+	public void setMenus(List<Menu> menus) {
+		this.menus = menus;
 	}
 	
 	

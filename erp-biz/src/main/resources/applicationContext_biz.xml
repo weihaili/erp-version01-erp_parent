@@ -20,6 +20,7 @@
 	<!-- emp -->
 	<bean id="empBiz" class="org.cn.kkl.erp.biz.impl.EmpBiz">
 		<property name="empDao" ref="empDao"></property>
+		<property name="roleDao" ref="roleDao"></property>
 	</bean>
 	
 	<!-- goodsType -->
@@ -50,6 +51,7 @@
 	<!-- role -->
 	<bean id="roleBiz" class="org.cn.kkl.erp.biz.impl.RoleBiz">
 		<property name="roleDao" ref="roleDao"></property>
+		<property name="menuDao" ref="menuDao"></property>
 	</bean>
 	
 	<!-- empRole -->

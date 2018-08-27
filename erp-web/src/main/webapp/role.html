@@ -11,14 +11,15 @@
 <script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
 <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="ui/date.js"></script>
 <script type="text/javascript" src="js/crud.js"></script>
 <script type="text/javascript">
 	var name='role';
 	var columns=[[    
 			        {field:'uuid',title:'Id',width:60,align:'center'},    
 			        {field:'name',title:'Name',width:120,align:'center'},    
-			        {field:'createTime',title:'create time',width:90,align:'center'},
-			        {field:'updateTime',title:'update time',width:90,align:'center'},
+			        {field:'createTime',title:'create time',width:150,align:'center',formatter:formatterDatetime},
+			        {field:'updateTime',title:'update time',width:150,align:'center',formatter:formatterDatetime},
 			        {field:'-',title:'operation',width:100,align:'center',
 			        	formatter: function(value,row,index){
 				        	var oper= ' <a href="javascript:void(0)" onclick="edit('+row.uuid+');">update</a>';
@@ -26,7 +27,11 @@
 							return oper;
 						}
 				    }    
-			    ]]
+	]];
+
+	function formatterDatetime(value){
+		return (new Date(value)).Format("yyyy-MM-dd hh:mm:ss");
+	}
 </script>
 
 <!-- <script type="text/javascript">

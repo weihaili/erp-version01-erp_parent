@@ -1,9 +1,16 @@
 package org.cn.kkl.erp.biz.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.cn.kkl.erp.biz.IEmpBiz;
 import org.cn.kkl.erp.dao.IEmpDao;
+import org.cn.kkl.erp.dao.IRoleDao;
 import org.cn.kkl.erp.entity.Emp;
+import org.cn.kkl.erp.entity.Role;
+import org.cn.kkl.erp.entity.Tree;
 import org.cn.kkl.erp.selfdifexception.ErpException;
 
 public class EmpBiz extends BaseBiz<Emp> implements IEmpBiz {
@@ -11,10 +18,20 @@ public class EmpBiz extends BaseBiz<Emp> implements IEmpBiz {
 	private Integer hashIterations=2;
 
 	private IEmpDao empDao;
+	
+	private IRoleDao roleDao;
 
 	public void setEmpDao(IEmpDao empDao) {
 		this.empDao = empDao;
 		super.setBaseDao(this.empDao);
+	}
+
+	public void setHashIterations(Integer hashIterations) {
+		this.hashIterations = hashIterations;
+	}
+
+	public void setRoleDao(IRoleDao roleDao) {
+		this.roleDao = roleDao;
 	}
 
 	@Override
@@ -79,4 +96,53 @@ public class EmpBiz extends BaseBiz<Emp> implements IEmpBiz {
 		return encryptoion.toString();
 	}
 
+	/**
+	 * get employee roles
+	 * @param empId
+	 * @return
+	 */
+	@Override
+	public List<Tree> readEmpRoles(Long empId) {
+		List<Tree> trees = new ArrayList<>();
+		Emp emp = empDao.get(empId);
+		List<Role> roles = emp.getRoles();
+		List<Role> allRoles = roleDao.getList(null, null, null);
+		Tree t1=null;
+		for (Role role : allRoles) {
+			t1=new Tree();
+			t1.setId(String.valueOf(role.getUuid()));
+			t1.setText(role.getName());
+			if (roles.contains(role)) {
+				t1.setChecked(true);
+			}
+			trees.add(t1);
+		}
+		return trees;
+	}
+
+	/**
+	 * update employee role
+	 * @param empId
+	 * @param checkedRoleIds
+	 */
+	@Override
+	public void updateEmpRoles(Long empId, String checkedRoleIds) {
+		if (null==empId || StringUtils.isBlank(checkedRoleIds)) {
+			System.out.println("parameter is null,please check");
+			return;
+		}
+		Emp emp = empDao.get(empId);
+		if (null==emp) {
+			System.out.println("the employee uuid does not exist");
+			return;
+		}
+		emp.setRoles(new ArrayList<Role>());
+		String[] roleIds = checkedRoleIds.split(",");
+		for (String roleId : roleIds) {
+			Role role = roleDao.get(Long.valueOf(roleId));
+			emp.getRoles().add(role);
+		}
+	}
+
+	
 }

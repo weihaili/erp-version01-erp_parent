@@ -9,5 +9,11 @@
 		<property name="name" />
 		<property name="createTime" />
 		<property name="updateTime" />
+		
+		<!-- many to many (role-menu)-->
+		<bag name="menus" order-by="menuuuid" table="role_menu">
+			<key column="roleuuid"></key>
+			<many-to-many class="org.cn.kkl.erp.entity.Menu" column="menuuuid"></many-to-many>
+		</bag>
 	</class>
 </hibernate-mapping>
