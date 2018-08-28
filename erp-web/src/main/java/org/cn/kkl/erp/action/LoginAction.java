@@ -6,6 +6,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.apache.struts2.ServletActionContext;
 import org.cn.kkl.erp.biz.IEmpBiz;
 import org.cn.kkl.erp.entity.Emp;
@@ -16,7 +19,6 @@ import com.opensymphony.xwork2.ActionContext;
 
 public class LoginAction {
 	
-	private IEmpBiz empBiz;
 	private String username;
 	private String pwd;
 	
@@ -32,22 +34,31 @@ public class LoginAction {
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
-	public void setEmpBiz(IEmpBiz empBiz) {
-		this.empBiz = empBiz;
-	}
 	
 	/**
 	 * user login verification
 	 */
 	public void checkUser(){
 		try {
-			Emp loginUser = empBiz.findByUsernameAndPwd( username,pwd);
+			//use traditional method
+			/*Emp loginUser = empBiz.findByUsernameAndPwd( username,pwd);
 			if (null!=loginUser) {
 				ActionContext.getContext().getSession().put("loginUser", loginUser);
 				ajaxReturn(true, "congratulations login success");
 			}else {
 				ajaxReturn(false, "username or password is incorrect,please check");
-			}
+			}*/
+			
+			//use shiro
+			/**
+			 * 1. create token
+			 * 2. get subject(wrap current user operation)
+			 * 3. execute login
+			 */
+			UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username,pwd);
+			Subject subject = SecurityUtils.getSubject();
+			subject.login(usernamePasswordToken);
+			ajaxReturn(true, "congratulations login success");
 		} catch (Exception e) {
 			e.printStackTrace();
 			ajaxReturn(false, "the system is busy,please try again later");
@@ -59,7 +70,9 @@ public class LoginAction {
 	 */
 	public void showName(){
 		//get loginUser currently
-		Emp loginUser = (Emp) ActionContext.getContext().getSession().get("loginUser");
+		//Emp loginUser = (Emp) ActionContext.getContext().getSession().get("loginUser");
+		Subject subject = SecurityUtils.getSubject();
+		Emp loginUser=(Emp) subject.getPrincipal();
 		if (null!=loginUser) {
 			ajaxReturn(true, loginUser.getUsername());
 		}else{
@@ -71,7 +84,8 @@ public class LoginAction {
 	 * logout  
 	 */
 	public void logout(){
-		ActionContext.getContext().getSession().remove("loginUser");
+		//ActionContext.getContext().getSession().remove("loginUser");
+		SecurityUtils.getSubject().logout();
 	}
 	
 	

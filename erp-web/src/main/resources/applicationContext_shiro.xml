@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- shiro filter factory equivalent default load nine build-in filter -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- security manager core component -->
+		<property name="securityManager" ref="securityManager" />
+		<!-- if user do not login,when it visit resource then auto redirect to this page -->
+		<property name="loginUrl" value="/login.html" />
+		<!-- when user do not have permission to visit resource then auto redirect to this page -->
+		<property name="unauthorizedUrl" value="/error.html" />
+		<!-- filter chain definitions when url visit correspond resource the filter of authentication and authorization to deal with this url-->
+		<property name="filterChainDefinitions">
+			<value>
+				/error.html = anon
+				/login_*.action = anon
+				/login_* = anon
+				/*.html = authc
+				/*.action=authc
+				/*=authc
+			</value>
+		</property>
+	</bean>
+
+	<!-- security manager -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="erpRealm"></property>
+	</bean>
+
+	<bean id="erpRealm" class="org.cn.kkl.erp.realm.ErpRealm">
+		<property name="empBiz" ref="empBiz"></property>
+	</bean>
+</beans>

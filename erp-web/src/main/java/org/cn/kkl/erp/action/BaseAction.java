@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.struts2.ServletActionContext;
 import org.cn.kkl.erp.biz.IBaseBiz;
 import org.cn.kkl.erp.entity.Emp;
@@ -225,7 +226,8 @@ public class BaseAction<T> {
 	 * @return
 	 */
 	public Emp getLoginUser(){
-		Emp emp=(Emp) ActionContext.getContext().getSession().get("loginUser");
+		//Emp emp=(Emp) ActionContext.getContext().getSession().get("loginUser");
+		Emp emp=(Emp) SecurityUtils.getSubject().getPrincipal();
 		return emp;
 	}
 }

@@ -1,5 +1,7 @@
 package org.cn.kkl.erp.dao.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.cn.kkl.erp.dao.IMenuDao;
 import org.cn.kkl.erp.entity.Menu;
@@ -23,5 +25,13 @@ public class MenuDao extends BaseDao<Menu> implements IMenuDao {
 		return criteria;
 	}
 
-	
+	/**
+	 * query employee permission(menu) by employee uuid
+	 * @param empuuid
+	 * @return
+	 */
+	public List<Menu> getMenusByEmpuuid(Long empuuid){
+		String hql="select m from Emp e join e.roles r join r.menus m where e.uuid=? ";
+		return (List<Menu>) this.getHibernateTemplate().find(hql, empuuid);
+	}
 }
