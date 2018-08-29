@@ -1,5 +1,7 @@
 package org.cn.kkl.erp.action;
 
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.cn.kkl.erp.biz.IOrderDetailBiz;
 import org.cn.kkl.erp.entity.Emp;
 import org.cn.kkl.erp.entity.OrderDetail;
@@ -42,6 +44,8 @@ public class OrderDetailAction extends BaseAction<OrderDetail> {
 		try {
 			orderDetailBiz.doInstore(orderId, loginUser.getUuid(),storeuuid);
 			ajaxReturn(true, "check pass,keep it up");
+		}catch (UnauthorizedException u) {
+			ajaxReturn(false, "insufficient permissions");
 		}catch (ErpException e) {
 			ajaxReturn(false, "order has been wareHoused please do not operation repeat");
 			e.printStackTrace();

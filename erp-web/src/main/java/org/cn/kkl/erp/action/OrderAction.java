@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.struts2.ServletActionContext;
 import org.cn.kkl.erp.biz.IOrderBiz;
 import org.cn.kkl.erp.entity.Emp;
@@ -53,6 +55,8 @@ public class OrderAction extends BaseAction<Order> {
 			order.setOrderDetails(details); //set order detail
 			orderBiz.add(order);
 			ajaxReturn(true, "add order successful");
+		}catch (UnauthorizedException u) {
+			ajaxReturn(false, "insufficient permissions");
 		} catch (Exception e) {
 			e.printStackTrace();
 			ajaxReturn(false, "server is busy,please try again later");
@@ -76,6 +80,8 @@ public class OrderAction extends BaseAction<Order> {
 		try {
 			orderBiz.doCheck(orderId, loginUser.getUuid());
 			ajaxReturn(true, "check pass,keep it up");
+		}catch (UnauthorizedException u) {
+			ajaxReturn(false, "insufficient permissions");
 		}catch (ErpException e) {
 			ajaxReturn(false, "order has been checked please do not operation repeat");
 			e.printStackTrace();
@@ -102,6 +108,8 @@ public class OrderAction extends BaseAction<Order> {
 		try {
 			orderBiz.doStart(orderId, loginUser.getUuid());
 			ajaxReturn(true, "check pass,keep it up");
+		}catch (UnauthorizedException u) {
+			ajaxReturn(false, "insufficient permissions");
 		}catch (ErpException e) {
 			ajaxReturn(false, "order has been confirmed please do not operation repeat");
 			e.printStackTrace();

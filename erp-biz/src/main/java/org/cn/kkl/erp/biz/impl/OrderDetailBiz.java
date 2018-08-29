@@ -3,6 +3,7 @@ package org.cn.kkl.erp.biz.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.cn.kkl.erp.biz.IOrderDetailBiz;
 import org.cn.kkl.erp.dao.IOrderDetailDao;
 import org.cn.kkl.erp.dao.IStoreDetailDao;
@@ -50,6 +51,7 @@ public class OrderDetailBiz extends BaseBiz<OrderDetail> implements IOrderDetail
 	 * 	 confirm all orderDetail has been in store then update table order state warehousing
 	 */
 	@Override
+	@RequiresPermissions("purchase order warehousing")
 	public void doInstore(Long orderId, Long empUuid, Long warehouseId) {
 		/**1. table orderDetail operation====================================*/
 		OrderDetail orderDetail = orderDetailDao.get(orderId);

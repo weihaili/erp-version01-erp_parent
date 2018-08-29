@@ -14,6 +14,11 @@
 		">  
 	<!-- <context:component-scan base-package="org.cn.kkl.erp"/> -->
 	
+	<!-- redis client -->
+	<bean id="jedisClient" class="org.cn.kkl.erp.redis.dao.impl.JedisClientPool">
+		<property name="jedisPool" ref="jedisPool"></property>
+	</bean>
+	
 	<!-- dep -->
 	<bean id="depDao" class="org.cn.kkl.erp.dao.impl.DepDao">
 		<property name="sessionFactory" ref="sessionFactory"></property>
@@ -48,6 +53,7 @@
 	<!-- menu -->
 	<bean id="menuDao" class="org.cn.kkl.erp.dao.impl.MenuDao">
 		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="jedisClient" ref="jedisClient"></property>
 	</bean>
 	
 	<!-- role -->

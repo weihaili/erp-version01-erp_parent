@@ -14,6 +14,9 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.cn.kkl.erp.biz.IOrderBiz;
 import org.cn.kkl.erp.dao.IEmpDao;
 import org.cn.kkl.erp.dao.IOrderDao;
@@ -46,6 +49,25 @@ public class OrderBiz extends BaseBiz<Order> implements IOrderBiz {
 	 */
 	@Override
 	public void add(Order order) {
+		Subject subject = SecurityUtils.getSubject();
+		//purchase order apply
+		if (Order.TYPE_IN==order.getType()) {
+			boolean hasPurchaseApplyPermission = subject.isPermitted("purchase requisition");
+			if (!hasPurchaseApplyPermission) {
+				throw new ErpException("insufficient permissions");
+			}
+		}else
+		
+		//sale order entry
+		if (Order.TYPE_OUT==order.getType()) {
+			boolean hasSaleEntryPermission = subject.isPermitted("sales order entry");
+			if (!hasSaleEntryPermission) {
+				throw new ErpException("insufficient permissions");
+			}
+		}else {
+			throw new ErpException("Illegal parameter");
+		}
+		
 		Date date = new Date();
 		//order.setType(Order.TYPE_IN);
 		order.setState(Order.STATE_CREATE);
@@ -90,6 +112,7 @@ public class OrderBiz extends BaseBiz<Order> implements IOrderBiz {
 	 * update order state set checker and checkTime
 	 */
 	@Override
+	@RequiresPermissions("purchase order review")
 	public void doCheck(Long uuid, Long empUuid) {
 		if (null==uuid) {
 			return ;
@@ -108,6 +131,7 @@ public class OrderBiz extends BaseBiz<Order> implements IOrderBiz {
 	 * update order state set starter and startTime
 	 */
 	@Override
+	@RequiresPermissions("purchase order confirmation")
 	public void doStart(Long uuid, Long empUuid) {
 		if (null==uuid) {
 			return;
