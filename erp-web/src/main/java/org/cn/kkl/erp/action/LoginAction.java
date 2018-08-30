@@ -10,12 +10,10 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.struts2.ServletActionContext;
-import org.cn.kkl.erp.biz.IEmpBiz;
 import org.cn.kkl.erp.entity.Emp;
 import org.springframework.http.MediaType;
 
 import com.alibaba.fastjson.JSON;
-import com.opensymphony.xwork2.ActionContext;
 
 public class LoginAction {
 	

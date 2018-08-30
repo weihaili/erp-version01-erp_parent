@@ -53,7 +53,6 @@
 	<!-- menu -->
 	<bean id="menuDao" class="org.cn.kkl.erp.dao.impl.MenuDao">
 		<property name="sessionFactory" ref="sessionFactory"></property>
-		<property name="jedisClient" ref="jedisClient"></property>
 	</bean>
 	
 	<!-- role -->

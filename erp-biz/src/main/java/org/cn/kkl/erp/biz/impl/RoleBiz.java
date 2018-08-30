@@ -7,15 +7,19 @@ import org.apache.commons.lang3.StringUtils;
 import org.cn.kkl.erp.biz.IRoleBiz;
 import org.cn.kkl.erp.dao.IMenuDao;
 import org.cn.kkl.erp.dao.IRoleDao;
+import org.cn.kkl.erp.entity.Emp;
 import org.cn.kkl.erp.entity.Menu;
 import org.cn.kkl.erp.entity.Role;
 import org.cn.kkl.erp.entity.Tree;
+import org.cn.kkl.erp.redis.dao.JedisClient;
 
 public class RoleBiz extends BaseBiz<Role> implements IRoleBiz {
 	
 	private IRoleDao roleDao;
 	
 	private IMenuDao menuDao;
+	
+	private JedisClient jedisClient;
 
 	public void setRoleDao(IRoleDao roleDao) {
 		this.roleDao = roleDao;
@@ -24,6 +28,10 @@ public class RoleBiz extends BaseBiz<Role> implements IRoleBiz {
 	
 	public void setMenuDao(IMenuDao menuDao) {
 		this.menuDao = menuDao;
+	}
+
+	public void setJedisClient(JedisClient jedisClient) {
+		this.jedisClient = jedisClient;
 	}
 
 	/**
@@ -78,6 +86,20 @@ public class RoleBiz extends BaseBiz<Role> implements IRoleBiz {
 				role.getMenus().add(menu);
 			}
 		}
+		
+		//clear cache
+		try {
+			List<Emp> emps = role.getEmps();
+			if (null!=emps && emps.size()>0) {
+				for (Emp emp : emps) {
+					jedisClient.hdel("permission", String.valueOf(emp.getUuid()));
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("redis server exception,please check");
+			e.printStackTrace();
+		}
+		
 	}
 
 }

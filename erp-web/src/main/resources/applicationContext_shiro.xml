@@ -28,6 +28,18 @@
 				
 				<!-- authorization -->
 				/*_list=perms[]
+				/*=perms["system menu"]
+				/*=perms["basic data"]
+				/*=perms["purchasing management"]
+				/*=perms["sales management"]
+				/*=perms["inventory management"]
+				/*=perms["authority management"]
+				/*=perms["statistical analysis"]
+				
+				/emp_updatePwd=perms[]
+				/pwd.html=perms["password management"]
+				/pwd.html=perms["reset password"]
+				/emp_updatePwd_reset=perms["reset password"]
 				
 				/goodsType.html=perms["goods type"]
 				/goodsType_*.action=perms["goods type"]
@@ -60,6 +72,72 @@
 				/menu.html=perms["menu"]
 				/menu_*.action=perms["menu"]
 				/menu_*=perms["menu"]
+				/menu_getMenuTree=perms["menu"]
+				/menu_getMenusByEmpuuid=perms["menu"]
+				
+				/order.html=perms["purchasing management"]
+				/order.html=perms["purchase requisition"]
+				/order_add=perms["purchase requisition"]
+				/order_listByCondition=perms["purchase requisition"]
+				/order_myListByPage=perms["purchase requisition"]
+				
+				/order.html=perms["purchase order tracking"]
+				/order_listByCondition=perms["purchase order tracking"]
+				
+				/order.html=perms["purchase order review"]
+				/order_listByCondition=perms["purchase order review"]
+				/order_doCheck=perms["purchase order review"]
+				
+				/order.html=perms["purchase order confirmation"]
+				/order_listByCondition=perms["purchase order confirmation"]
+				/order_doStart=perms["purchase order confirmation"]
+				
+				/order.html=perms["purchase order warehousing"]
+				/order_listByCondition=perms["purchase order warehousing"]
+				/order_myListByPage=perms["purchase order warehousing"]
+				/orderDetail_doInStore=perms["purchase order warehousing"]
+				
+				
+				/order.html=perms["sales order entry"]
+				/order_add=perms["sales order entry"]
+				/store_myList=perms["sales order entry"]
+				
+				/order.html=perms["sale order inquiry"]
+				/order_listByCondition=perms["sale order inquiry"]
+				
+				/order.html=perms["sale order delivery"]
+				/order_listByCondition=perms["sale order delivery"]
+				/store_myList=perms["sale order delivery"]
+				/orderDetail_doOutStore=perms["sale order delivery"]
+				
+				/storeDetail.html=perms["inventory inquiry"]
+				/goods_get=perms["inventory inquiry"]
+				/store_get=perms["inventory inquiry"]
+				/storeDetail_listByCondition=perms["inventory inquiry"]
+				/storeOper_listByCondition=perms["inventory inquiry"]
+				
+				
+				/storeOper.html=perms["inventory change record inquiry"]
+				/storeQuantityWarning.html=perms["inventory qunatity warning"]
+				/goods_get=perms["inventory qunatity warning"]
+				/store_get=perms["inventory qunatity warning"]
+				/emp_get=perms["inventory qunatity warning"]
+				
+				/role.html=perms["role management"]
+				/roleMenuSet.html=perms["role permission management"]
+				/role_readRoleMenus=perms["role permission management"]
+				/role_updateRoleMenus=perms["role permission management"]
+				
+				/empRoleSet.html=perms["employee role management"]
+				/emp_readEmpRoles=perms["employee role management"]
+				/emp_updateEmpRoles=perms["employee role management"]
+				
+				/report_order.html=perms["annual sales ratio statistics"]
+				/report_orderReport=perms["annual sales ratio statistics"]
+				
+				/report_trend.html=perms["monthly sales trend"]
+				/report_trendReport=perms["monthly sales trend"]
+
 				<!-- authc -->
 				/*.html = authc
 				/*.action=authc

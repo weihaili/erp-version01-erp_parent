@@ -21,6 +21,9 @@ public class Role implements Serializable {
 	@JSONField(serialize=false)
 	private List<Menu> menus;
 	
+	@JSONField(serialize=false)
+	private List<Emp> emps;
+	
 	public Long getUuid() {
 		return uuid;
 	}
@@ -50,6 +53,12 @@ public class Role implements Serializable {
 	}
 	public void setMenus(List<Menu> menus) {
 		this.menus = menus;
+	}
+	public List<Emp> getEmps() {
+		return emps;
+	}
+	public void setEmps(List<Emp> emps) {
+		this.emps = emps;
 	}
 	
 	

@@ -11,6 +11,7 @@ import org.cn.kkl.erp.dao.IRoleDao;
 import org.cn.kkl.erp.entity.Emp;
 import org.cn.kkl.erp.entity.Role;
 import org.cn.kkl.erp.entity.Tree;
+import org.cn.kkl.erp.redis.dao.JedisClient;
 import org.cn.kkl.erp.selfdifexception.ErpException;
 
 public class EmpBiz extends BaseBiz<Emp> implements IEmpBiz {
@@ -20,6 +21,8 @@ public class EmpBiz extends BaseBiz<Emp> implements IEmpBiz {
 	private IEmpDao empDao;
 	
 	private IRoleDao roleDao;
+	
+	private JedisClient jedisClient;
 
 	public void setEmpDao(IEmpDao empDao) {
 		this.empDao = empDao;
@@ -32,6 +35,10 @@ public class EmpBiz extends BaseBiz<Emp> implements IEmpBiz {
 
 	public void setRoleDao(IRoleDao roleDao) {
 		this.roleDao = roleDao;
+	}
+
+	public void setJedisClient(JedisClient jedisClient) {
+		this.jedisClient = jedisClient;
 	}
 
 	@Override
@@ -141,6 +148,12 @@ public class EmpBiz extends BaseBiz<Emp> implements IEmpBiz {
 		for (String roleId : roleIds) {
 			Role role = roleDao.get(Long.valueOf(roleId));
 			emp.getRoles().add(role);
+		}
+		try {
+			jedisClient.hdel("permission", String.valueOf(empId));
+		} catch (Exception e) {
+			System.out.println("redis server exception ,please check");
+			e.printStackTrace();
 		}
 	}
 

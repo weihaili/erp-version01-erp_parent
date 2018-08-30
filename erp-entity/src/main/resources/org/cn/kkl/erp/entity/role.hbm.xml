@@ -15,5 +15,11 @@
 			<key column="roleuuid"></key>
 			<many-to-many class="org.cn.kkl.erp.entity.Menu" column="menuuuid"></many-to-many>
 		</bag>
+		
+		<!-- query employee belong to current role -->
+		<bag name="emps" order-by="empuuid" table="emp_role">
+			<key column="roleuuid"></key>
+			<many-to-many class="org.cn.kkl.erp.entity.Emp" column="empuuid"></many-to-many>
+		</bag>
 	</class>
 </hibernate-mapping>

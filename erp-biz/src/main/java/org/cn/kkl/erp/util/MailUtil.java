@@ -1,6 +1,5 @@
 package org.cn.kkl.erp.util;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.mail.MessagingException;

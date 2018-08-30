@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts2.ServletActionContext;
 import org.springframework.http.MediaType;
 
 import com.alibaba.fastjson.JSON;

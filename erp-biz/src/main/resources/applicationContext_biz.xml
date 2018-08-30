@@ -21,6 +21,7 @@
 	<bean id="empBiz" class="org.cn.kkl.erp.biz.impl.EmpBiz">
 		<property name="empDao" ref="empDao"></property>
 		<property name="roleDao" ref="roleDao"></property>
+		<property name="jedisClient" ref="jedisClient"></property>
 	</bean>
 	
 	<!-- goodsType -->
@@ -46,6 +47,7 @@
 	<!-- menu -->
 	<bean id="menuBiz" class="org.cn.kkl.erp.biz.impl.MenuBiz">
 		<property name="menuDao" ref="menuDao"></property>
+		<property name="jedisClient" ref="jedisClient"></property>
 	</bean>
 	
 	<!-- role -->

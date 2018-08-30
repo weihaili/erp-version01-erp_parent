@@ -1,7 +1,6 @@
 package org.cn.kkl.erp.action;
 
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.cn.kkl.erp.biz.IOrderDetailBiz;
 import org.cn.kkl.erp.entity.Emp;
 import org.cn.kkl.erp.entity.OrderDetail;

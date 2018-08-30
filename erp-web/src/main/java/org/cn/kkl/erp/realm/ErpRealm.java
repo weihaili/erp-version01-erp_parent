@@ -1,8 +1,6 @@
 package org.cn.kkl.erp.realm;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
